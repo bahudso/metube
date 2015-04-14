@@ -14,7 +14,7 @@ class cDatabase
     {
         try
         {
-            //$this->oConnection = new PDO( 'mysql:host=bark.clemson.edu;dbname=SEC_5406_ADVISING_TOOLS_COMM', 'kx4y89r', 'rxk63cr2' );
+            $this->oConnection = new PDO( 'mysql:host=mysql1.cs.clemson.edu;dbname=metube_up08', 'metube_1tig', 'metube666' );
         }
         catch( Exception $e )
         {
