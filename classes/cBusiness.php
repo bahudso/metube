@@ -4,7 +4,7 @@ require_once 'libs/cDatabase.php';
 
 class cBusiness
 {
-    private $oDb;
+    protected $oDb;
 
     public function __construct()
     {
@@ -14,6 +14,12 @@ class cBusiness
     public function HandleIndex()
     {
         $aIndexData = array();
+
+        $sGetUsers = "SELECT * FROM user";
+
+        $aUsers = $this->oDb->GetQueryResults( $sGetUsers );
+
+        dv( $aUsers );
 
         return $aIndexData;
     }

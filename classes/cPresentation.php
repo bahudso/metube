@@ -4,7 +4,7 @@ require_once 'libs/cTemplate.php';
 
 class cPresentation
 {
-    private $oTemplate;
+    protected $oTemplate;
 
     public function __construct()
     {
