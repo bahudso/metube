@@ -19,8 +19,6 @@ class cBusiness
 
         $aUsers = $this->oDb->GetQueryResults( $sGetUsers );
 
-        dv( $aUsers );
-
         return $aIndexData;
     }
 }
