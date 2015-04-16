@@ -1,6 +1,38 @@
+html, body {
+	margin: 0;
+	padding: 0;
+}
+
 nav {
 	position: relative;
 	background-color: grey;
-	height: 60px;
+}
+
+nav ul {
+	margin: 0;
+}
+
+nav ul li {
+	list-style-type: none;
+	display: inline-block;
+	margin: 0;
+	padding: 10px;
+}
+
+input[name=search] {
+	float: right;
+	width: 20%;
+	padding: 5px;
+	margin: 5px;
+	margin-right: 45px;
+}
+
+div#content {
 	width: 100%;
+}
+
+footer {
+	text-align: center;
+	width: 100%;
+	box-sizing: border-box;
 }
