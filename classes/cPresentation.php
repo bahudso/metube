@@ -15,7 +15,7 @@ class cPresentation
     {
         $aIndexPage = array();
 
-        $aIndexPage[ 'template' ] = 'index.html';
+        $aIndexPage[ 'template' ] = 'layout.html';
 
         $sIndexHTML = $this->oTemplate->PopulateTemplate( $aIndexPage );
 
