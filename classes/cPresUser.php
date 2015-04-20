@@ -9,7 +9,6 @@ class cPresUser extends cPresentation
     public function __construct()
     {
         parent::__construct();
-        $this->oTemplate->SetTemplateDir( 'user' );
     }
 
     /**
@@ -22,16 +21,16 @@ class cPresUser extends cPresentation
         if( isset( $aUserData[ 'logged-in' ] ) )
         {
             //show user account page
-            $aUserPage[ 'template' ]       = 'account.html';
+            $aUserPage[ 'template' ]       = 'user/account.html';
             $aUserPage[ '_:_EMAIL_:_' ]    = $aUserData[ 'email' ];
             $aUserPage[ '_:_USERNAME_:_' ] = $aUserData[ 'username' ];
         }
         else
         {
-            $aUserPage[ 'template' ] = 'user.html';
+            $aUserPage[ 'template' ] = 'user/user.html';
         }
 
-        $sUserHTML = $this->oTemplate->PopulateTemplate( $aUserPage );
+        $sUserHTML = $this->BuildPage( $aUserPage );
 
         return $sUserHTML;
     }
