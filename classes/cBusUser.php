@@ -25,14 +25,39 @@ class cBusUser extends cBusiness
 
         if( isset( $_POST[ 'register' ] ) )
         {
-            // Register functionality.
             $iError = $this->Register( $_POST );
+        }
+
+        if( isset( $_POST[ 'edit-email' ] ) )
+        {
+            // edit user email
+        }
+
+        if( isset( $_POST[ 'edit-password' ] ) )
+        {
+            // edit user password
+        }
+
+        if( isset( $_POST[ 'edit-username' ] ) )
+        {
+            // edit username
         }
 
         if( isset( $_SESSION[ 'user' ] ) )
         {
             // Someone is logged in, so show them their page.
             $aUserData[ 'logged-in' ] = $_SESSION[ 'user' ];
+
+            // Get data for user.
+            $sGetUserInfo = "SELECT username, email FROM user
+                             WHERE id = :id";
+
+            $aBind = array( ':id' => $aUserData[ 'logged-in' ] );
+
+            $aUserInfo = $this->oDb->GetQueryResults( $sGetUserInfo, $aBind );
+
+            $aUserData[ 'email' ]    = $aUserInfo[ 'email' ];
+            $aUserData[ 'username' ] = $aUserInfo[ 'username' ];
         }
 
         return $aUserData;
