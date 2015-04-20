@@ -22,6 +22,7 @@ class cPresUser extends cPresentation
         {
             //show user account page
             $aUserPage[ 'template' ]       = 'user/account.html';
+            $aUserPage[ '_:_MESSAGE_:_' ]  = $aUserData[ 'message' ];
             $aUserPage[ '_:_EMAIL_:_' ]    = $aUserData[ 'email' ];
             $aUserPage[ '_:_USERNAME_:_' ] = $aUserData[ 'username' ];
         }

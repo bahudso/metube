@@ -17,30 +17,31 @@ class cBusUser extends cBusiness
     public function HandleUser()
     {
         $aUserData = array();
+        $sMessage  = '';
 
         if( isset( $_POST[ 'login' ] ) )
         {
-            $iError = $this->LogIn( $_POST );
+            $sMessage = $this->LogIn( $_POST );
         }
 
         if( isset( $_POST[ 'register' ] ) )
         {
-            $iError = $this->Register( $_POST );
+            $sMessage = $this->Register( $_POST );
         }
 
         if( isset( $_POST[ 'edit-email' ] ) )
         {
-            // edit user email
+            $sMessage = $this->EditEmail( $_POST );
         }
 
         if( isset( $_POST[ 'edit-password' ] ) )
         {
-            // edit user password
+            $sMessage = $this->EditPassword( $_POST );
         }
 
         if( isset( $_POST[ 'edit-username' ] ) )
         {
-            // edit username
+            $sMessage = $this->EditUsername( $_POST );
         }
 
         if( isset( $_SESSION[ 'user' ] ) )
@@ -58,6 +59,8 @@ class cBusUser extends cBusiness
 
             $aUserData[ 'email' ]    = $aUserInfo[ 'email' ];
             $aUserData[ 'username' ] = $aUserInfo[ 'username' ];
+
+            $aUserData[ 'message' ] = $sMessage;
         }
 
         return $aUserData;
@@ -68,7 +71,7 @@ class cBusUser extends cBusiness
     **/
     public function Register( $aFormData )
     {
-        $iError = 0;
+        $sMessage = '';
 
         // Check for valid email.
         $sEmail = $aFormData[ 'email' ];
@@ -76,8 +79,7 @@ class cBusUser extends cBusiness
 
         if( $bValidEmail === FALSE )
         {
-            // Invalid email address.
-            $iError = 1;
+            $sMessage = 'Invalid email address.';
         }
 
         // Check for password match.
@@ -88,14 +90,11 @@ class cBusUser extends cBusiness
 
         if( $iPasswordConf !== 0 )
         {
-            // Passwords do not match.
-            $iError = 2;
+            $sMessage = 'Passwords must match.';
         }
 
-        // Check for safe password. ? (Not sure if we need to do this)
-
         // If we have made it this far without an error we can register the user.
-        if( $iError === 0 )
+        if( $sMessage === '' )
         {
             // Generate random salt.
             $sSalt = substr(strtr(base64_encode(openssl_random_pseudo_bytes(22)), '+', '.'), 0, 22);
@@ -114,7 +113,7 @@ class cBusUser extends cBusiness
             $this->oDb->RunQuery( $sInsertUser, $aBind ); 
         }
 
-        return $iError;
+        return $sMessage;
     }
 
     /**
@@ -122,7 +121,7 @@ class cBusUser extends cBusiness
     **/
     public function LogIn( $aFormData )
     {
-        $iError = 0;
+        $sMessage = '';
 
         $sEmail = $aFormData[ 'email' ];
 
@@ -143,8 +142,7 @@ class cBusUser extends cBusiness
 
         if( $sNewHash !== $sHash )
         {
-            // Incorrect password. 
-            $iError = 1;
+            $sMessage = 'Incorrect password.';
         }
         else
         {
@@ -153,7 +151,7 @@ class cBusUser extends cBusiness
             $_SESSION[ 'user' ] = $iUserId;
         }
 
-        return $iError;
+        return $sMessage;
     }
 
     /**
@@ -163,6 +161,108 @@ class cBusUser extends cBusiness
     {
         session_destroy();
         $_SESSION = array();
+    }
+
+    /**
+    * Edit user email address.
+    **/
+    public function EditEmail( array $aPost )
+    {
+        $sMessage = '';
+
+        // Check for valid email.
+        $sEmail = $aPost[ 'email' ];
+        $bValidEmail = filter_var( $sEmail, FILTER_VALIDATE_EMAIL );
+
+        if( $bValidEmail === FALSE )
+        {
+            $sMessage = 'Invalid email address.';
+        }
+
+        if( $sMessage === '' )
+        {
+            // No errors so we can update the email address.
+            $sUpdateEmail = "UPDATE user
+                             SET email = :email
+                             WHERE id = :id";
+
+            $aBind = array( ':email' => $sEmail,
+                            ':id'    => $_SESSION[ 'user' ] );
+
+            $this->oDb->RunQuery( $sUpdateEmail, $aBind );
+
+            $sMessage = 'Your email address has been updated.';
+        }
+
+        return $sMessage;
+    }
+
+    /**
+    * Edit user password.
+    **/
+    public function EditPassword( array $aPost )
+    {
+        $sMessage = '';
+
+        // Check for password match.
+        $sPassword     = $aPost[ 'password' ];
+        $sPasswordConf = $aPost[ 'password-conf' ];
+
+        $iPasswordConf = strcmp( $sPassword, $sPasswordConf );
+
+        if( $iPasswordConf !== 0 )
+        {
+            $sMessage = 'Passwords must match.';
+        }
+
+        // If we have made it this far without an error we can change the password
+        if( $sMessage === '' )
+        {
+            // Generate random salt.
+            $sSalt = substr(strtr(base64_encode(openssl_random_pseudo_bytes(22)), '+', '.'), 0, 22);
+
+            // Hash password.
+            $sHash = crypt( $sPassword, '$2y$12$' . $sSalt );
+
+            // Update with new hash and salt.
+            $sUpdatePassword = "UPDATE  user 
+                                SET salt = :salt,
+                                    hash = :hash
+                                WHERE id = :id";
+
+            $aBind = array( ':salt'  => $sSalt,
+                            ':hash'  => $sHash,
+                            ':id'    => $_SESSION[ 'user' ], );
+
+            $this->oDb->RunQuery( $sUpdatePassword, $aBind ); 
+
+            $sMessage = 'Your password has been updated.';
+        }
+
+        return $sMessage;
+    }
+
+    /**
+    * Edit user username.
+    **/
+    public function EditUsername( array $aPost )
+    {
+        $sMessage = '';;
+
+        $sUsername = $aPost[ 'username' ];
+
+        $sUpdateUsername = "UPDATE user
+                            SET username = :username
+                            WHERE id = :id";
+
+        $aBind = array( ':username' => $sUsername,
+                        ':id'       => $_SESSION[ 'user' ] );
+
+        $this->oDb->RunQuery( $sUpdateUsername, $aBind );
+
+        $sMessage = 'Your username has been updated.';
+
+        return $sMessage;
     }
 }
 
