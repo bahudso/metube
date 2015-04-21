@@ -55,7 +55,7 @@ class cBusUser extends cBusiness
 
             $aBind = array( ':id' => $aUserData[ 'logged-in' ] );
 
-            $aUserInfo = $this->oDb->GetQueryResults( $sGetUserInfo, $aBind );
+            $aUserInfo = $this->oDb->GetSingleQueryResults( $sGetUserInfo, $aBind );
 
             $aUserData[ 'email' ]    = $aUserInfo[ 'email' ];
             $aUserData[ 'username' ] = $aUserInfo[ 'username' ];
@@ -132,7 +132,7 @@ class cBusUser extends cBusiness
 
         $aBind = array( ':email' => $sEmail );
 
-        $aUserData = $this->oDb->GetQueryResults( $sGetUser, $aBind );
+        $aUserData = $this->oDb->GetSingleQueryResults( $sGetUser, $aBind );
 
         $sPassword = $aFormData[ 'password' ];
         $sHash     = $aUserData[ 'hash' ];
@@ -247,7 +247,7 @@ class cBusUser extends cBusiness
     **/
     public function EditUsername( array $aPost )
     {
-        $sMessage = '';;
+        $sMessage = '';
 
         $sUsername = $aPost[ 'username' ];
 
