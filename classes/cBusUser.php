@@ -264,6 +264,23 @@ class cBusUser extends cBusiness
 
         return $sMessage;
     }
+
+    /**
+    * Get user's messages
+    **/
+    public function getMessages() {
+        $sGetMessages = "SELECT sender, content, date, username FROM message JOIN user ON user.id = message.receiver WHERE receiver = :user";
+        $aBind = array(':user' => $_SESSION['user']);
+        $messages = $this->oDb->GetQueryResults( $sGetMessages, $aBind );
+        return $messages;
+    }
+
+    /**
+    * Send a message to another user
+    **/
+    public function sendMessage( $aFormData ) {
+        
+    }
 }
 
 ?>

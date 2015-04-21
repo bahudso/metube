@@ -35,6 +35,23 @@ class cPresUser extends cPresentation
 
         return $sUserHTML;
     }
+
+    /**
+    * Build message template
+    **/
+    public function GetMessagePage( $messages ) {
+        $page['template'] = 'user/messages.html';
+        foreach($messages as $message) {
+            $aMessageItem = array();
+            $aMessageItem['template'] = 'user/message.html';
+            $aMessageItem[ '_:_CONTENT_:_' ] = $message['content'];
+            $page[ '_:_MESSAGES_:_' ][] = $aMessageItem;
+        }
+
+        $html = $this->BuildPage($page);
+
+        return $html;
+    }
 }
 
 ?>
