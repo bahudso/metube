@@ -282,8 +282,17 @@ class cBusUser extends cBusiness
         $sInsertMessage = "INSERT INTO message (sender, receiver, content, date) 
                             VALUES (:sender, :receiver, :content, NOW())";
         
+        // check if receiver (to) is number
+        if (is_numeric($aFormData['receiver'])) {
+            $receiver = $aFormData['receiver'];
+        } else { // if not number then search username and get user id
+            $sGetUserId = "SELECT id FROM user WHERE username = :username";
+            $aBind = array(':username' => $aFormData['receiver']);
+            $result = $this->oDb->GetQueryResults( $sGetUserId, $aBind );
+            $receiver = $result[0]['id'];
+        }
         $aBind = array(':sender' => $_SESSION['user'],
-            ':receiver' => $aFormData['receiver'],
+            ':receiver' => $receiver,
             ':content' => $aFormData['content']);
 
 
