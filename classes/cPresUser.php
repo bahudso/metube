@@ -39,14 +39,20 @@ class cPresUser extends cPresentation
     /**
     * Build message template
     **/
-    public function GetMessagePage( $messages ) {
+    public function GetMessagePage( $messages, $retMessage = '' ) {
         $page['template'] = 'user/messages.html';
+
+        $sMessages = '';
         foreach($messages as $message) {
-            $aMessageItem = array();
-            $aMessageItem['template'] = 'user/message.html';
-            $aMessageItem[ '_:_CONTENT_:_' ] = $message['content'];
-            $page[ '_:_MESSAGES_:_' ][] = $aMessageItem;
+            $aMessage = array();
+            $aMessage[ 'template' ] = 'user/message.html';
+            $aMessage[ '_:_CONTENT_:_' ] = $message[ 'content' ];
+            $aMessage[ '_:_FROM_:_' ]    = $message[ 'username' ];
+            $sMessages .= $this->oTemplate->PopulateTemplate( $aMessage );
         }
+
+        $page[ '_:_MESSAGES_:_' ] = $sMessages;
+        $page['_:_MESSAGE_:_'] = $retMessage;
 
         $html = $this->BuildPage($page);
 

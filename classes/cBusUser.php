@@ -269,7 +269,7 @@ class cBusUser extends cBusiness
     * Get user's messages
     **/
     public function getMessages() {
-        $sGetMessages = "SELECT sender, content, date, username FROM message JOIN user ON user.id = message.receiver WHERE receiver = :user";
+        $sGetMessages = "SELECT sender, content, date, username FROM message JOIN user ON user.id = message.sender WHERE receiver = :user";
         $aBind = array(':user' => $_SESSION['user']);
         $messages = $this->oDb->GetQueryResults( $sGetMessages, $aBind );
         return $messages;
@@ -286,7 +286,8 @@ class cBusUser extends cBusiness
             ':receiver' => $aFormData['receiver'],
             ':content' => $aFormData['content']);
 
-        $this->oDb->RunQuery( $sUpdateUsername, $aBind );
+
+        $this->oDb->RunQuery( $sInsertMessage, $aBind );
 
         $sMessage = 'Your message has been sent.';
 

@@ -1,12 +1,15 @@
 <h1>Messages</h1>
-<form name="new_message">
+<form action="messages.php" method="POST">
 	<h2>New Message</h2>
+	<p>_:_MESSAGE_:_</p>
 	<label for="receiver">To:</label>
 	<input name="receiver"/>
 	<br>
 	<label for="content">Message:</label>
 	<br>
 	<textarea name="content"></textarea>
+	<br><br>
+	<input name="sendMessage" type="submit" value="Submit"/>
 </form>
 <ul>
 	_:_MESSAGES_:_
