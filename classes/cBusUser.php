@@ -55,7 +55,7 @@ class cBusUser extends cBusiness
 
             $aBind = array( ':id' => $aUserData[ 'logged-in' ] );
 
-            $aUserInfo = $this->oDb->GetSingleQueryResults( $sGetUserInfo, $aBind );
+            $aUserInfo = $this->oDb->GetQueryResults( $sGetUserInfo, $aBind );
 
             $aUserData[ 'email' ]    = $aUserInfo[ 'email' ];
             $aUserData[ 'username' ] = $aUserInfo[ 'username' ];
@@ -132,7 +132,7 @@ class cBusUser extends cBusiness
 
         $aBind = array( ':email' => $sEmail );
 
-        $aUserData = $this->oDb->GetSingleQueryResults( $sGetUser, $aBind );
+        $aUserData = $this->oDb->GetQueryResults( $sGetUser, $aBind );
 
         $sPassword = $aFormData[ 'password' ];
         $sHash     = $aUserData[ 'hash' ];
@@ -247,7 +247,7 @@ class cBusUser extends cBusiness
     **/
     public function EditUsername( array $aPost )
     {
-        $sMessage = '';
+        $sMessage = '';;
 
         $sUsername = $aPost[ 'username' ];
 
@@ -279,7 +279,18 @@ class cBusUser extends cBusiness
     * Send a message to another user
     **/
     public function sendMessage( $aFormData ) {
+        $sInsertMessage = "INSERT INTO message (sender, receiver, content, date) 
+                            VALUES (:sender, :receiver, :content, NOW())";
         
+        $aBind = array(':sender' => $_SESSION['user'],
+            ':receiver' => $aFormData['receiver'],
+            ':content' => $aFormData['content']);
+
+        $this->oDb->RunQuery( $sUpdateUsername, $aBind );
+
+        $sMessage = 'Your message has been sent.';
+
+        return $sMessage;
     }
 }
 
