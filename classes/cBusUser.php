@@ -55,7 +55,7 @@ class cBusUser extends cBusiness
 
             $aBind = array( ':id' => $aUserData[ 'logged-in' ] );
 
-            $aUserInfo = $this->oDb->GetQueryResults( $sGetUserInfo, $aBind );
+            $aUserInfo = $this->oDb->GetSingleQueryResults( $sGetUserInfo, $aBind );
 
             $aUserData[ 'email' ]    = $aUserInfo[ 'email' ];
             $aUserData[ 'username' ] = $aUserInfo[ 'username' ];
