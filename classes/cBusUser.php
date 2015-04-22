@@ -50,7 +50,7 @@ class cBusUser extends cBusiness
             $aUserData[ 'logged-in' ] = $_SESSION[ 'user' ];
 
             // Get data for user.
-            $sGetUserInfo = "SELECT username, email FROM user
+            $sGetUserInfo = "SELECT username, email, description FROM user
                              WHERE id = :id";
 
             $aBind = array( ':id' => $aUserData[ 'logged-in' ] );
@@ -59,6 +59,7 @@ class cBusUser extends cBusiness
 
             $aUserData[ 'email' ]    = $aUserInfo[ 'email' ];
             $aUserData[ 'username' ] = $aUserInfo[ 'username' ];
+            $aUserData[ 'description' ] = $aUserInfo[ 'description' ];
 
             $aUserData[ 'message' ] = $sMessage;
         }

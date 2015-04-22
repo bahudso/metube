@@ -37,6 +37,21 @@ class cPresUser extends cPresentation
     }
 
     /**
+    * Handles building user profile page HTML.
+    **/
+    public function GetUserProfilePage($aUserData) {
+        $aUserProfilePage = array();
+        $aUserProfilePage['template']       = 'user/profile.html';
+        $aUserProfilePage['_:_USERNAME_:_'] = $aUserData['username'];
+        $aUserProfilePage['_:_EMAIL_:_']    = $aUserData['email'];
+        $aUserProfilePage['_:_DESCRIPTION_:_']    = $aUserData['description'];
+
+        $sProfileHtml = $this->BuildPage($aUserProfilePage);
+        
+        return $sProfileHtml;
+    }
+
+    /**
     * Build message template
     **/
     public function GetMessagePage( $messages, $retMessage = '' ) {
