@@ -77,9 +77,10 @@ class cPresUser extends cPresentation
     /**
     * Build relationships template
     **/
-    public function GetRelationshipsPage($relations) {
+    public function GetRelationshipsPage($relations, $message) {
         $page = array();
         $page['template'] = 'user/relationships.html';
+        $page['_:_MESSAGE_:_'] = $message;
         $page['_:_PENDING_:_'] = '';
         $page['_:_FRIENDS_:_'] = '';
         $page['_:_FOES_:_'] = '';

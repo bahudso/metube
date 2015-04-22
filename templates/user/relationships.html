@@ -1,4 +1,19 @@
 <h1>Your Relationships</h1>
+<p>_:_MESSAGE_:_</p>
+<h2>Add New Relationship</h2>
+<form action="relationships.php" method="POST">
+	<label for="user">Username</label>
+	<input name="username" type="text" placeholder="Type username"/>
+	<br>
+	<label for="type">Relationship Type</label>
+	<select name="type">
+		<option value="NULL">---</option>
+		<option value="0">Friend</option>
+		<option value="2">Foe</option>
+	</select>
+	<br>
+	<input name="addRelationship" type="submit" value="Add"/>
+</form>
 
 <h2>Pending Requests</h2>
 <ul>_:_PENDING_:_</ul>

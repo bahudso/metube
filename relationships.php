@@ -6,9 +6,14 @@ require_once 'includes/UserBootstrap.php';
 
 try
 {
+	$sMessage = '';
+
+	if (isset($_POST['addRelationship'])) {
+		$sMessage = $oBusiness->AddRelationship($_POST);
+	}
     $aData = $oBusiness->GetRelationships();
 
-    $sUserHTML = $oPresentation->GetRelationshipsPage( $aData );
+    $sUserHTML = $oPresentation->GetRelationshipsPage( $aData, $sMessage );
 
     echo $sUserHTML;
 }

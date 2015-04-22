@@ -296,7 +296,6 @@ class cBusUser extends cBusiness
             ':receiver' => $receiver,
             ':content' => $aFormData['content']);
 
-
         $this->oDb->RunQuery( $sInsertMessage, $aBind );
 
         $sMessage = 'Your message has been sent.';
@@ -317,6 +316,30 @@ class cBusUser extends cBusiness
         $relations = $this->oDb->GetQueryResults( $sGetRelations, $aBind );
 
         return $relations;
+    }
+
+    /**
+    * Handle adding a new relationship for a user
+    **/
+    public function AddRelationship($aFormData) {
+        // get user id for user_b
+        $sGetUserId = "SELECT id FROM user WHERE username = :username";
+        $aBind = array(':username' => $aFormData['username']);
+        $result = $this->oDb->GetSingleQueryResults( $sGetUserId, $aBind );
+        $userId = $result["id"];
+
+        $sInsertMessage = "INSERT INTO relationship (user_a, user_b, type, timestamp) 
+            VALUES (:user_a, :user_b, :type, NOW())";
+
+        $aBind = array(':user_a' => $_SESSION['user'],
+            ':user_b' => $userId,
+            ':type' => $_POST['type']);
+
+        $this->oDb->RunQuery( $sInsertMessage, $aBind );
+
+        $sMessage = 'Success.';
+
+        return $sMessage;
     }
 }
 
