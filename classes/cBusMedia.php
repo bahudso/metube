@@ -129,7 +129,10 @@ class cBusMedia extends cBusiness
         } 
         catch( RuntimeException $e ) 
         {
+            $aReturn = array();
             $aReturn[ 'error' ] = $e->getMessage();
+
+            return $aReturn;
         }
     }
 
