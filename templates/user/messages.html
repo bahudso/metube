@@ -1,16 +1,23 @@
 <h1>Messages</h1>
-<form action="messages.php" method="POST">
-	<h2>New Message</h2>
-	<p>_:_MESSAGE_:_</p>
-	<label for="receiver">To:</label>
-	<input name="receiver"/>
-	<br>
-	<label for="content">Message:</label>
-	<br>
-	<textarea name="content"></textarea>
-	<br><br>
-	<input name="sendMessage" type="submit" value="Submit"/>
-</form>
-<ul>
-	_:_MESSAGES_:_
-</ul>
+<div class="container">
+	<table>
+		<tbody><tr><td>
+			<form action="messages.php" method="POST" class="panel">
+				<h2>New Message</h2>
+				<p>_:_MESSAGE_:_</p>
+				<label for="receiver">To:</label>
+				<input name="receiver"/>
+				<br>
+				<label for="content">Message:</label>
+				<br>
+				<textarea name="content"></textarea>
+				<br><br>
+				<input name="sendMessage" type="submit" value="Submit"/>
+			</form>
+		</td><td>
+			<ul id="messages">
+				_:_MESSAGES_:_
+			</ul>
+		</td></tr></tbody>
+	</table>
+</div>

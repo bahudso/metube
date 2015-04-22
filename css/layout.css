@@ -27,12 +27,37 @@ nav a {
 	color: #000;
 }
 
+form {
+	margin: 0;
+}
+
 input[name=search] {
 	float: right;
 	width: 20%;
 	padding: 5px;
 	margin: 5px;
 	margin-right: 45px;
+}
+
+table {
+	width: 100%;
+}
+
+table td {
+	padding: 10px;
+	vertical-align: top;
+}
+
+ul {
+	margin: 0;
+	margin-left: 20px;
+	padding: 0;
+}
+
+ul#messages {
+	list-style: none;
+	margin: 0;
+	padding: 0;
 }
 
 div#content {
@@ -44,6 +69,11 @@ h1 {
 	margin: 10px;
 	text-align: center;
 	text-shadow: 0 1px 2px grey;
+}
+
+h2 {
+	margin: 10px 0;
+	font-size: 1.2em;
 }
 
 .container {
@@ -79,6 +109,22 @@ h1 {
 
 .media-item {
 
+}
+
+.panel {
+	padding: 10px;
+	margin: 0 0 20px 0;
+	border: 1px solid #000;
+	box-shadow: 2px 2px grey;
+	border-radius: 5px;
+}
+
+.panel h2 {
+	margin: 0 0 10px 0;
+}
+
+.panel p {
+	margin: 0 0 10px 0;
 }
 
 footer {

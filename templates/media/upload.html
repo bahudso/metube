@@ -1,27 +1,44 @@
-<form action="upload.php" method="POST" enctype="multipart/form-data">
-    <div class="feedback _:_FEEDBACK-TYPE_:_">
-    _:_FEEDBACK_:_
-    </div>
+<h1>Upload new Media File</h1>
+<div class="container">
+    <form action="upload.php" method="POST" enctype="multipart/form-data">
+        <div class="feedback _:_FEEDBACK-TYPE_:_">
+        _:_FEEDBACK_:_
+        </div>
 
-    Upload File:
-    <input type="file" name="file" />
+        <p>
+            <label>Upload File:</label>
+            <input type="file" name="file" />
+        </p>
 
-    <p>Upload Title:</p>
-    <input type="text" name="file-title" />
+        <p>
+            <label>Title:</label>
+            <input type="text" name="file-title" placeholder="Media Title" />
+        </p>
 
-    <p>Upload Description:</p>
-    <textarea name="file-description"></textarea>
+        <p>
+            <label>Description:</label>
+            <br>
+            <textarea name="file-description" placeholder="Media description"></textarea>
+        </p>
 
-    <p>Upload Tags:</p>
-    <input type="text" name="file-tags" />
+        <p>
+            <label>Tags:</label>
+            <input type="text" name="file-tags" placeholder="Tags separated by commas" />
+        </p>
 
-    <p>Upload Permissions:</p>
-    Public:
-    <input type="radio" name="file-access" value="public" checked/>
-    Friends:
-    <input type="radio" name="file-access" value="friends" />
-    Private:
-    <input type="radio" name="file-access" value="private" />
+        <p>
+            <label>Permissions:</label>
+            <br>
+            &ensp;&ensp;<label>Public: &ensp;</label>
+                <input type="radio" name="file-access" value="public" checked/>
+            <br>
+            &ensp;&ensp;<label>Friends:</label>
+                <input type="radio" name="file-access" value="friends" />
+            <br>
+            &ensp;&ensp;<label>Private:</label>
+                <input type="radio" name="file-access" value="private" />
+        </p>
 
-    <input type="submit" value="Upload File" name="upload-submit"/>
-</form> 
+        <input type="submit" value="Upload File" name="upload-submit"/>
+    </form>
+</div>
