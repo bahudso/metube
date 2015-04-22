@@ -64,7 +64,7 @@ class cBusMedia extends cBusiness
             
             if ( !isset( $aFile[ 'error' ] ) || is_array( $aFile[ 'error' ] ) )
             {
-                $aReturn[ 'error' ] = 'Invalid parameters.';
+                throw new RuntimeException('Invalid parameters.');
             }
 
             switch ( $aFile[ 'error' ] ) 
@@ -72,19 +72,19 @@ class cBusMedia extends cBusiness
                 case UPLOAD_ERR_OK:
                     break;
                 case UPLOAD_ERR_NO_FILE:
-                    $aReturn[ 'error' ] ='No file sent.';
+                    throw new RuntimeException('No file sent.');
                     break;
                 case UPLOAD_ERR_INI_SIZE:
                 case UPLOAD_ERR_FORM_SIZE:
-                    $aReturn[ 'error' ] = 'Exceeded filesize limit.';
+                    throw new RuntimeException('Exceeded filesize limit.');
                     break;
                 default:
-                    $aReturn[ 'error' ] = 'Unknown errors.';
+                    throw new RuntimeException('Unknown errors.');
             }
 
             if ( $aFile[ 'size' ] > 10000000 ) 
             {
-                $aReturn[ 'error' ] = 'Exceeded file size limit of 10MB.';
+                throw new RuntimeException( 'Exceeded file size limit of 10MB.' );
             }
 
             $sMimeType = mime_content_type( $sTempName );
@@ -106,7 +106,7 @@ class cBusMedia extends cBusiness
             $sExt = array_search( $sMimeType, $aAcceptedTypes, true );
             if ( $sExt === false )
             {
-                $aReturn[ 'error' ] = 'Invalid file format.';
+                throw new RuntimeException( 'Invalid file format.' );
             }
             
             $sDate        = date( 'mdYHis' );
@@ -122,14 +122,14 @@ class cBusMedia extends cBusiness
             }
             else
             {
-                $aReturn[ 'error' ] = 'Failed to move uploaded file.';
+                throw new RuntimeException( 'Failed to move uploaded file.' );
             }
 
             return $aReturn;
         } 
         catch( RuntimeException $e ) 
         {
-            cLogger::Write( $e );
+            $aReturn[ 'error' ] = $e->getMessage();
         }
     }
 
