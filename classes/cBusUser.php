@@ -341,6 +341,25 @@ class cBusUser extends cBusiness
 
         return $sMessage;
     }
+
+    /**
+    * Load user profile
+    **/
+    public function LoadProfile($userid) {
+        // Get data for user.
+        $sGetUserInfo = "SELECT username, email, description FROM user
+                         WHERE id = :id";
+
+        $aBind = array( ':id' => $userid );
+
+        $aUserInfo = $this->oDb->GetSingleQueryResults( $sGetUserInfo, $aBind );
+
+        $aUserData[ 'email' ]    = $aUserInfo[ 'email' ];
+        $aUserData[ 'username' ] = $aUserInfo[ 'username' ];
+        $aUserData[ 'description' ] = $aUserInfo[ 'description' ];
+
+        return $aUserData;
+    }
 }
 
 ?>

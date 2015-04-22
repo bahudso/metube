@@ -6,11 +6,15 @@ require_once 'includes/UserBootstrap.php';
 
 try
 {
-    $aUserData = $oBusiness->HandleUser();
+	if (isset($_GET['userid'])) {
+		$aUserData = $oBusiness->LoadProfile($_GET['userid']);
+	} else {
+		$aUserData = $oBusiness->HandleUser();
+	}
 
-    $sUserHTML = $oPresentation->GetUserProfilePage( $aUserData );
+	$sProfileHTML = $oPresentation->GetUserProfilePage( $aUserData );
 
-    echo $sUserHTML;
+    echo $sProfileHTML;
 }
 catch( Exception $e )
 {
