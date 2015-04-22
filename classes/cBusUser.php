@@ -303,6 +303,21 @@ class cBusUser extends cBusiness
 
         return $sMessage;
     }
+
+    /**
+    * Get's relationships for a user
+    **/
+    public function GetRelationships() {
+        $sGetRelations = "SELECT type, username 
+            FROM relationship JOIN user ON user.id = relationship.user_b 
+            WHERE user_a = :user";
+        
+        $aBind = array(':user' => $_SESSION['user']);
+
+        $relations = $this->oDb->GetQueryResults( $sGetRelations, $aBind );
+
+        return $relations;
+    }
 }
 
 ?>

@@ -73,6 +73,36 @@ class cPresUser extends cPresentation
 
         return $html;
     }
+
+    /**
+    * Build relationships template
+    **/
+    public function GetRelationshipsPage($relations) {
+        $page = array();
+        $page['template'] = 'user/relationships.html';
+        $page['_:_PENDING_:_'] = '';
+        $page['_:_FRIENDS_:_'] = '';
+        $page['_:_FOES_:_'] = '';
+
+        foreach($relations as $relation) {
+            // pending requests
+            if ($relation['type'] == 0) {
+                $page['_:_PENDING_:_'] .= "<li>".$relation['username']."</li>";
+            }
+            // friends
+            if ($relation['type'] == 1) {
+                $page['_:_FRIENDS_:_'] .= "<li>".$relation['username']."</li>";
+            }
+            // foes
+            if ($relation['type'] == 2) {
+                $page['_:_FOES_:_'] .= "<li>".$relation['username']."</li>";
+            }
+        }
+
+        $html = $this->BuildPage($page);
+        
+        return $html;
+    }
 }
 
 ?>
