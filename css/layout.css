@@ -1,11 +1,14 @@
 html, body {
 	margin: 0;
 	padding: 0;
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	background-color: #ededed;
 }
 
 nav {
 	position: relative;
-	background-color: grey;
+	background-color: #fff;
+	box-shadow: 0 1px 2px grey;
 }
 
 nav ul {
@@ -19,6 +22,11 @@ nav ul li {
 	padding: 10px;
 }
 
+nav a {
+	text-decoration: none;
+	color: #000;
+}
+
 input[name=search] {
 	float: right;
 	width: 20%;
@@ -28,11 +36,53 @@ input[name=search] {
 }
 
 div#content {
+	position: relative;
 	width: 100%;
+}
+
+h1 {
+	margin: 10px;
+	text-align: center;
+	text-shadow: 0 1px 2px grey;
+}
+
+.container {
+	position: relative;
+	padding: 10px 50px 50px 50px;
+}
+
+.media {
+	position: relative;
+	border: 1px solid grey;
+	border-radius: 2px;
+	width: 30%;
+	height: 30vh;
+	margin: 1%;
+	display: inline-block;
+}
+
+.media label {
+	font-size: 1em;
+	font-weight: bold;
+	margin: 10px;
+}
+
+.media .media-container {
+	
+}
+
+.media p {
+	font-size: .5em;
+	margin: 0;
+	padding: 10px;
+}
+
+.media-item {
+
 }
 
 footer {
 	text-align: center;
 	width: 100%;
-	box-sizing: border-box;
+	font-size: .5em;
 }
