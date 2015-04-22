@@ -39,6 +39,12 @@ input[name=search] {
 	margin-right: 45px;
 }
 
+input#browse {
+	float: none;
+	width: 90%;
+	margin: 0 auto;
+}
+
 table {
 	width: 100%;
 }

@@ -37,6 +37,18 @@ class cPresMedia extends cPresentation
 
         return $sUploadHTML;
     }
+
+    /**
+    * build browse page template
+    **/
+    public function GetBrowsePage($aBrowseData) {
+        $aBrowsePage = array();
+        $aBrowsePage['template'] = 'browse.html';
+
+        $sBrowseHTML = $this->BuildPage( $aBrowsePage );
+
+        return $sBrowseHTML;
+    }
 }
 
 ?>

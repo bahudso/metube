@@ -158,6 +158,15 @@ class cBusMedia extends cBusiness
 
         $this->oDb->RunQuery( $sSaveFile, $aBind );
     }
+
+    /**
+    * Handle browse for media files
+    **/
+    public function HandleBrowse($_GET) {
+        if (isset($_GET['search'])) {
+            // do search
+        }
+    }
 }
 
 ?>

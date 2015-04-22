@@ -1,5 +1,20 @@
 <?php
-// not sure what to put here...
-// but it should handle search and return results and load the browse template I would presume
+
+/* Controller for browse page. */
+
+require_once 'includes/MediaBootstrap.php';
+
+try
+{
+    $aUploadData = $oBusiness->HandleBrowse($_GET);
+
+    $sUploadHTML = $oPresentation->GetBrowsePage( $aUploadData );
+
+    echo $sUploadHTML;
+}
+catch( Exception $e )
+{
+    cLogger::Write( $e );
+}
 
 ?>
