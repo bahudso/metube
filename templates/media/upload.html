@@ -1,0 +1,27 @@
+<form action="upload.php" method="POST" enctype="multipart/form-data">
+    <div class="feedback _:_FEEDBACK-TYPE_:_">
+    _:_FEEDBACK_:_
+    </div>
+
+    Upload File:
+    <input type="file" name="file" />
+
+    <p>Upload Title:</p>
+    <input type="text" name="file-title" />
+
+    <p>Upload Description:</p>
+    <textarea name="file-description"></textarea>
+
+    <p>Upload Tags:</p>
+    <input type="text" name="file-tags" />
+
+    <p>Upload Permissions:</p>
+    Public:
+    <input type="radio" name="file-access" value="public" checked/>
+    Friends:
+    <input type="radio" name="file-access" value="friends" />
+    Private:
+    <input type="radio" name="file-access" value="private" />
+
+    <input type="submit" value="Upload File" name="upload-submit"/>
+</form> 
