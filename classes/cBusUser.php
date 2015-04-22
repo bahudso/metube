@@ -50,13 +50,14 @@ class cBusUser extends cBusiness
             $aUserData[ 'logged-in' ] = $_SESSION[ 'user' ];
 
             // Get data for user.
-            $sGetUserInfo = "SELECT username, email, description FROM user
+            $sGetUserInfo = "SELECT id, username, email, description FROM user
                              WHERE id = :id";
 
             $aBind = array( ':id' => $aUserData[ 'logged-in' ] );
 
             $aUserInfo = $this->oDb->GetSingleQueryResults( $sGetUserInfo, $aBind );
 
+            $aUserData[ 'id' ]    = $aUserInfo[ 'id' ];
             $aUserData[ 'email' ]    = $aUserInfo[ 'email' ];
             $aUserData[ 'username' ] = $aUserInfo[ 'username' ];
             $aUserData[ 'description' ] = $aUserInfo[ 'description' ];
@@ -127,13 +128,13 @@ class cBusUser extends cBusiness
         $sEmail = $aFormData[ 'email' ];
 
         // Get hash and salt from database where username = supplied username.
-        $sGetUser = "SELECT id, salt, hash 
+        $sGetUser = "SELECT id, salt, hash, username 
                      FROM user
                      WHERE email = :email";
 
         $aBind = array( ':email' => $sEmail );
 
-        $aUserData = $this->oDb->GetQueryResults( $sGetUser, $aBind );
+        $aUserData = $this->oDb->GetSingleQueryResults( $sGetUser, $aBind );
 
         $sPassword = $aFormData[ 'password' ];
         $sHash     = $aUserData[ 'hash' ];
@@ -150,6 +151,7 @@ class cBusUser extends cBusiness
             // Log user in.
             $iUserId = $aUserData[ 'id' ];
             $_SESSION[ 'user' ] = $iUserId;
+            $_SESSION['username'] = $aUserData['username'];
         }
 
         return $sMessage;
@@ -354,11 +356,29 @@ class cBusUser extends cBusiness
 
         $aUserInfo = $this->oDb->GetSingleQueryResults( $sGetUserInfo, $aBind );
 
-        $aUserData[ 'email' ]    = $aUserInfo[ 'email' ];
-        $aUserData[ 'username' ] = $aUserInfo[ 'username' ];
+        $aUserData[ 'id' ]          = $userid;
+        $aUserData[ 'email' ]       = $aUserInfo[ 'email' ];
+        $aUserData[ 'username' ]    = $aUserInfo[ 'username' ];
         $aUserData[ 'description' ] = $aUserInfo[ 'description' ];
 
         return $aUserData;
+    }
+
+    /**
+    * Subscribe to user's channel
+    **/
+    public function Subscribe($userId) {// userid is id of user being subscribed to
+        $sInsertMessage = "INSERT INTO subscription (user_a, user_b, timestamp) 
+            VALUES (:user_a, :user_b, NOW())";
+
+        $aBind = array(':user_a' => $_SESSION['user'],
+            ':user_b' => $userId);
+
+        $this->oDb->RunQuery( $sInsertMessage, $aBind );
+
+        $sMessage = 'Success.';
+
+        return $sMessage;
     }
 }
 

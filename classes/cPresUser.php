@@ -42,9 +42,17 @@ class cPresUser extends cPresentation
     public function GetUserProfilePage($aUserData) {
         $aUserProfilePage = array();
         $aUserProfilePage['template']       = 'user/profile.html';
+        $aUserProfilePage['_:_ID_:_']       = $aUserData['id'];
         $aUserProfilePage['_:_USERNAME_:_'] = $aUserData['username'];
         $aUserProfilePage['_:_EMAIL_:_']    = $aUserData['email'];
         $aUserProfilePage['_:_DESCRIPTION_:_']    = $aUserData['description'];
+
+        // check if it's current user's page or not
+        if ($aUserData['username'] == $_SESSION['username'] || isset($aUserData['message'])) {
+            $aUserProfilePage['_:_SUBSCRIBE_:_'] = '';
+        } else {
+            $aUserProfilePage['_:_SUBSCRIBE_:_'] = '<input type="submit" name="subscribe" value="Subscribe"/>';            
+        }
 
         $sProfileHtml = $this->BuildPage($aUserProfilePage);
         

@@ -8,7 +8,12 @@ try
 {
 	if (isset($_GET['userid'])) {
 		$aUserData = $oBusiness->LoadProfile($_GET['userid']);
-	} else {
+
+		if (isset($_POST['subscribe'])) {
+			$aUserData['message'] = $oBusiness->Subscribe($_GET['userid']);
+		}
+	}
+	else {
 		$aUserData = $oBusiness->HandleUser();
 	}
 
