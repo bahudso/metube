@@ -60,8 +60,12 @@ class cPresUser extends cPresentation
 
         // media
         $sMedia = '';
-        foreach($aUserData['media'] as $media) {
-            $sMedia .= '<li class="panel"><a href="view.php?media='.$media['id'].'">'.$media['title'].'</a></li>';
+        if (isset($aUserData['media'])) {
+            foreach($aUserData['media'] as $media) {
+                $sMedia .= '<li class="panel"><a href="view.php?media='.$media['id'].'">'.$media['title'].'</a></li>';
+            }
+        } else {
+            $sMedia .= '<li class="panel">No media</li>';
         }
 
         $aUserProfilePage[ '_:_MEDIA_:_' ] = $sMedia;
@@ -216,6 +220,23 @@ class cPresUser extends cPresentation
         $html = $this->BuildPage($page);
 
         return $html;
+    }
+
+    /**
+    * Get users page for listing all users
+    **/
+    public function GetUsersPage($users) {
+        $page = array();
+        $page['template'] = 'users.html';
+
+        $sUsers = '';
+        foreach($users as $user) {
+            $sUsers .= '<li class="panel"><a href="profile.php?userid='.$user['id'].'">'.$user['username']."</a></li>";
+        }
+
+        $page['_:_USERS_:_'] = $sUsers;
+
+        return $this->BuildPage($page);
     }
 }
 

@@ -512,6 +512,14 @@ class cBusUser extends cBusiness
 
         return $aFavorites;
     }
+
+    public function GetAllUsers() {
+        $sGetUsers = "SELECT * FROM user";
+
+        $aUsers = $this->oDb->GetQueryResults($sGetUsers, array());
+
+        return $aUsers;
+    }
 }
 
 ?>
