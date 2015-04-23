@@ -14,7 +14,7 @@ try
 		}
 	}
 	else {
-		$aUserData = $oBusiness->HandleUser();
+		$aUserData = $oBusiness->HandleAccount();
 	}
 
 	$sProfileHTML = $oPresentation->GetUserProfilePage( $aUserData );

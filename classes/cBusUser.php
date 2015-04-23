@@ -14,7 +14,7 @@ class cBusUser extends cBusiness
     /**
     * Handles logic for user page ( login, registration... )
     **/
-    public function HandleUser()
+    public function HandleLogin()
     {
         $aUserData = array();
         $sMessage  = '';
@@ -28,6 +28,23 @@ class cBusUser extends cBusiness
         {
             $sMessage = $this->Register( $_POST );
         }
+
+        $aUserData[ 'message' ] = $sMessage;
+
+        if ( isset($_GET['logout']) ) {
+            $this->LogOut();
+        }
+
+        return $aUserData;
+    }
+
+    /**
+    * Handles logic for account settings page.
+    **/ 
+    public function HandleAccount()
+    {
+        $aUserData = array();
+        $sMessage  = '';
 
         if( isset( $_POST[ 'edit-email' ] ) )
         {
@@ -63,10 +80,6 @@ class cBusUser extends cBusiness
             $aUserData[ 'description' ] = $aUserInfo[ 'description' ];
 
             $aUserData[ 'message' ] = $sMessage;
-        }
-
-        if ( isset($_GET['logout']) ) {
-            $this->LogOut();
         }
 
         return $aUserData;
@@ -156,6 +169,7 @@ class cBusUser extends cBusiness
             $iUserId = $aUserData[ 'id' ];
             $_SESSION[ 'user' ] = $iUserId;
             $_SESSION['username'] = $aUserData['username'];
+            header( 'Location: profile.php' );
         }
 
         return $sMessage;

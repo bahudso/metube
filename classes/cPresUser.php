@@ -11,29 +11,33 @@ class cPresUser extends cPresentation
         parent::__construct();
     }
 
+    public function GetLoginPage( $aLoginData )
+    {
+        $aLoginPage = array();
+
+        $aLoginPage[ 'template' ] = 'user/login.html';
+
+        $sLoginHTML = $this->BuildPage( $aLoginPage );
+
+        return $sLoginHTML;
+    }
+
     /**
     * Handles building user page HTML.
     **/
-    public function GetUserPage( $aUserData )
+    public function GetAccountPage( $aUserData )
     {
-        $aUserPage = array();
+        $aAccountPage = array();
 
-        if( isset( $aUserData[ 'logged-in' ] ) )
-        {
-            //show user account page
-            $aUserPage[ 'template' ]       = 'user/account.html';
-            $aUserPage[ '_:_MESSAGE_:_' ]  = $aUserData[ 'message' ];
-            $aUserPage[ '_:_EMAIL_:_' ]    = $aUserData[ 'email' ];
-            $aUserPage[ '_:_USERNAME_:_' ] = $aUserData[ 'username' ];
-        }
-        else
-        {
-            $aUserPage[ 'template' ] = 'user/user.html';
-        }
+        //show user account page
+        $aAccountPage[ 'template' ]       = 'user/account.html';
+        $aAccountPage[ '_:_MESSAGE_:_' ]  = $aUserData[ 'message' ];
+        $aAccountPage[ '_:_EMAIL_:_' ]    = $aUserData[ 'email' ];
+        $aAccountPage[ '_:_USERNAME_:_' ] = $aUserData[ 'username' ];
 
-        $sUserHTML = $this->BuildPage( $aUserPage );
+        $sAccountHTML = $this->BuildPage( $aAccountPage );
 
-        return $sUserHTML;
+        return $sAccountHTML;
     }
 
     /**
