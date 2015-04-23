@@ -26,7 +26,11 @@ class cPresentation
     {
         $aLayout = array();
 
-        $aLayout[ 'template' ] = 'layout.html';
+        if (isset($_SESSION['user'])) {
+            $aLayout[ 'template' ] = 'user/layout.html';
+        } else {
+            $aLayout[ 'template' ] = 'layout.html';
+        }
 
         $aLayout[ '_:_CONTENT_:_' ] = $aPage;
 

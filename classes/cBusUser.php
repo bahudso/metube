@@ -65,6 +65,10 @@ class cBusUser extends cBusiness
             $aUserData[ 'message' ] = $sMessage;
         }
 
+        if ( isset($_GET['logout']) ) {
+            $this->LogOut();
+        }
+
         return $aUserData;
     }
 
