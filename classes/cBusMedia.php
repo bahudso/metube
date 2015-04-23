@@ -98,7 +98,7 @@ class cBusMedia extends cBusiness
                                 'mov' => 'video/quicktime',
                                 'wav' => 'audio/x-wav',
                                 'mp3' => 'audio/mpeg',
-                                'oga' => 'audio/ogg',
+                                'ogg' => 'audio/ogg',
                                 'png' => 'image/png',
                                 'jpg' => 'image/jpeg',
                                 'gif' => 'image/gif'  
@@ -190,7 +190,7 @@ class cBusMedia extends cBusiness
                                 'mov' => 'video/quicktime',
                                 'wav' => 'audio/x-wav',
                                 'mp3' => 'audio/mpeg',
-                                'oga' => 'audio/ogg',
+                                'ogg' => 'audio/ogg',
                                 'png' => 'image/png',
                                 'jpg' => 'image/jpeg',
                                 'gif' => 'image/gif'  
@@ -236,6 +236,46 @@ class cBusMedia extends cBusiness
 
             return $aSearchData;
         }
+    }
+
+    /**
+    * Handle logic for view media page.
+    **/
+    public function HandleView()
+    {
+        $aViewData = array();
+
+        if( isset( $_GET[ 'media' ] ) )
+        {
+            $iMediaId = !empty( $_GET[ 'media' ] ) ? $_GET[ 'media' ] : '';
+
+            // increment view count
+            $sIncrViews = "UPDATE media SET views = views + 1 WHERE id = :id";
+
+            $aBind = array( ':id' => $iMediaId );
+
+            $this->oDb->RunQuery( $sIncrViews, $aBind );
+
+            $aViewData = $this->GetMedia( $iMediaId );
+        }
+
+        return $aViewData;
+    }
+
+    /**
+    * Get media information for media id.
+    **/
+    public function GetMedia( $iMediaId )
+    {
+        $aMediaData = array();
+
+        $sGetMedia = "SELECT * FROM media WHERE id = :id";
+
+        $aBind = array( ':id' => $iMediaId );
+
+        $aMediaData = $this->oDb->GetSingleQueryResults( $sGetMedia, $aBind );
+
+        return $aMediaData;
     }
 }
 
