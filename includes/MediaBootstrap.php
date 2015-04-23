@@ -7,5 +7,4 @@ require_once 'classes/cBusMedia.php';
 $oBusiness = new cBusMedia();
 $oPresentation = new cPresMedia();
 
-session_start();
 ?>

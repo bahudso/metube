@@ -7,5 +7,4 @@ require_once 'classes/cBusUser.php';
 $oBusiness = new cBusUser();
 $oPresentation = new cPresUser();
 
-session_start();
 ?>
