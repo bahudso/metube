@@ -26,6 +26,27 @@ try
 
 		$sPlaylistHTML = $oPresentation->GetPlaylistPage( $aPlaylist );
 
+	} else if (isset($_GET['addToPlaylist'])) {
+		// just load add to playlist template
+		$page = array();
+		$page['template'] = 'user/addToPlaylist.html';
+		$page['_:_MEDIAID_:_'] = $_GET['media_id'];
+
+		$aPlaylists = $oBusiness->getPlaylists();
+		$sPlaylists = '<option value="">-----</option>';
+		foreach($aPlaylists as $playlist) {
+			$sPlaylists .= "<option value='" . $playlist["id"] . "'>" . $playlist["title"] . "</option>";
+		}
+
+		$page['_:_PLAYLISTS_:_'] = $sPlaylists;
+
+		$sPlaylistHTML = $oPresentation->BuildPage($page);
+	} else if (isset($_POST['addToPlaylist'])) {
+		$oBusiness->addToPlaylist($_POST);
+
+		$sMessage = "Successfully added media to playlist";
+
+		header("Location: view.php?media=".$_POST['media_id']);
 	} else {
 		// load all user playlists & playlists template
 		$aPlaylists = $oBusiness->getPlaylists();

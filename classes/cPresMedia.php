@@ -79,6 +79,7 @@ class cPresMedia extends cPresentation
     {
         $aViewPage = array();
         $aViewPage[ 'template' ] = 'media/view.html';
+        $aViewPage[ '_:_ID_:_' ] = $aViewData[ 'id' ];
         $aViewPage[ '_:_TITLE_:_' ] = $aViewData[ 'title' ];
         $aViewPage[ '_:_DESC_:_' ]  = !empty( $aViewData[ 'description' ] ) ?
                                       $aViewData[ 'description' ] : 'No description provided.';

@@ -446,6 +446,19 @@ class cBusUser extends cBusiness
 
         return $playlists;
     }
+
+    /**
+    * Add media to playlist
+    **/
+    public function addToPlaylist($aFormData) {
+        $sInsert = "INSERT INTO playlist_media (playlist_id, media_id) VALUE (:playlist_id, :media_id)";
+
+        $aBind = array(":playlist_id" => $aFormData['playlist'], ":media_id" => $aFormData['media_id']);
+
+        $this->oDb->RunQuery( $sInsert, $aBind );
+
+        return 0;
+    }
 }
 
 ?>

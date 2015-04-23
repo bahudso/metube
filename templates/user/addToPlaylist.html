@@ -1,0 +1,12 @@
+<h1>Add Media to Playlist</h1>
+<div class="container">
+	<p>Select which playlist to add the media item to.</p>
+	<form action="playlist.php" method="POST">
+		<label>Playlist</label>
+		<select name="playlist">
+			_:_PLAYLISTS_:_
+		</select>
+		<input name="media_id" type="hidden" value="_:_MEDIAID_:_"/>
+		<input name="addToPlaylist" type="submit" value="Add To Playlist"/>
+	</form>
+</div>
