@@ -98,7 +98,7 @@ class cBusMedia extends cBusiness
                                 'mov' => 'video/quicktime',
                                 'wav' => 'audio/x-wav',
                                 'mp3' => 'audio/mpeg',
-                                'oga' => 'audio/ogg',
+                                'ogg' => 'audio/ogg',
                                 'png' => 'image/png',
                                 'jpg' => 'image/jpeg',
                                 'gif' => 'image/gif'  
@@ -190,7 +190,7 @@ class cBusMedia extends cBusiness
                                 'mov' => 'video/quicktime',
                                 'wav' => 'audio/x-wav',
                                 'mp3' => 'audio/mpeg',
-                                'oga' => 'audio/ogg',
+                                'ogg' => 'audio/ogg',
                                 'png' => 'image/png',
                                 'jpg' => 'image/jpeg',
                                 'gif' => 'image/gif'  
@@ -254,6 +254,86 @@ class cBusMedia extends cBusiness
 
         return $aSearchData;
     }
+
+    /**
+    * Handle logic for view media page.
+    **/
+    public function HandleView()
+    {
+        $aViewData = array();
+
+        if( isset( $_GET[ 'media' ] ) )
+        {
+            $iMediaId = !empty( $_GET[ 'media' ] ) ? $_GET[ 'media' ] : '';
+
+            // check for submitted comment
+            if( isset( $_POST[ 'submit-comment' ] ) )
+            {
+                // save comment.
+                if( !empty( $_POST[ 'comment' ] ) )
+                {
+                    $sComment = $_POST[ 'comment' ];
+                    $this->SaveComment( $sComment, $iMediaId );
+                }
+            }
+
+            // increment view count
+            $sIncrViews = "UPDATE media SET views = views + 1 WHERE id = :id";
+
+            $aBind = array( ':id' => $iMediaId );
+
+            $this->oDb->RunQuery( $sIncrViews, $aBind );
+
+            $aViewData = $this->GetMedia( $iMediaId );
+        }
+
+        return $aViewData;
+    }
+
+    /**
+    * Get media information for media id.
+    **/
+    public function GetMedia( $iMediaId )
+    {
+        $aMediaData = array();
+
+        // get media data
+        $sGetMedia = "SELECT * FROM media WHERE id = :id";
+
+        $aBind = array( ':id' => $iMediaId );
+
+        $aMediaData = $this->oDb->GetSingleQueryResults( $sGetMedia, $aBind );
+
+        // get media comments
+        $sGetComments = "SELECT * FROM comment WHERE media_id = :id ORDER BY timestamp DESC";
+
+        $aBind = array( ':id' => $iMediaId );
+
+        $aComments = $this->oDb->GetQueryResults( $sGetComments, $aBind );
+
+        $aMediaData[ 'comments' ] = $aComments;
+
+        return $aMediaData;
+    }
+
+    /**
+    * Logic for saving media comments.
+    **/
+    public function SaveComment( $sComment, $iMediaId )
+    {
+        $sSaveComment = "INSERT INTO comment
+                         ( media_id, user_id, comment, timestamp )
+                         VALUES
+                         ( :media_id, :user_id, :comment, :timestamp )";
+
+        $aBind = array( ':media_id'  => $iMediaId,
+                        ':user_id'   => $_SESSION[ 'user' ],
+                        ':comment'   => $sComment,
+                        ':timestamp' => date( 'Y-m-d H:i:s' ) );
+
+        $this->oDb->RunQuery( $sSaveComment, $aBind );
+    }
+
 }
 
 ?>
