@@ -49,12 +49,23 @@ class cPresMedia extends cPresentation
         if (count($aBrowseData) == 0) {
             $sResults = "<li class='panel'>No results</li>";
         } else {
-            foreach($aBrowseData as $result) {
+            foreach($aBrowseData['results'] as $result) {
+                // dv($result);
                 $sResults .= "<li class='panel'><a href='view.php?id=" . $result['id'] . "'>" . $result['title'] . "</a></li>";
             }
+
+
         }
 
         $aBrowsePage['_:_RESULTS_:_'] = $sResults;
+
+        // tags
+        $sTags = '';
+        foreach($aBrowseData['tags'] as $tag) {
+            $sTags .= "<li><a href='browse.php?tags=true&search=" . $tag['tag'] . "'>" . $tag['tag'] . "</a></li>";
+        }
+
+        $aBrowsePage['_:_TAGS_:_'] = $sTags;
 
         $sBrowseHTML = $this->BuildPage( $aBrowsePage );
 

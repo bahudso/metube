@@ -223,7 +223,15 @@ class cBusMedia extends cBusiness
     **/
     public function HandleBrowse($_GET) {
         // if search is seach perform search
-        if (isset($_GET['search'])) {
+        if (isset($_GET['tags'])) {
+            $sGetSearch = "SELECT * FROM media 
+                JOIN tag ON media_id = id
+                WHERE 
+                tag = :tag";
+
+            $aBind = array(':tag' => $_GET['search']);
+
+        } else if (isset($_GET['search'])) {
             $sGetSearch = "SELECT * FROM media WHERE 
                 (title LIKE '%" . $_GET['search'] . "%' OR
                 description LIKE '%" . $_GET['search'] . "%') AND
@@ -231,11 +239,20 @@ class cBusMedia extends cBusiness
                 uploader = :user)";
 
             $aBind = array(':user' => $_SESSION['user']);
-
-            $aSearchData = $this->oDb->GetQueryResults( $sGetSearch, $aBind );
-
-            return $aSearchData;
         }
+
+        $aSearchData["results"] = $this->oDb->GetQueryResults( $sGetSearch, $aBind );
+
+        // get tags to show
+        $sGetTags = "SELECT DISTINCT(tag) FROM tag LIMIT 10";
+
+        $aTagData = $this->oDb->GetQueryResults($sGetTags, array());
+
+        $aSearchData["tags"] = $aTagData;
+
+        dv($aSearchData);
+
+        return $aSearchData;
     }
 }
 
