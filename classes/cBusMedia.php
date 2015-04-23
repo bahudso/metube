@@ -249,6 +249,17 @@ class cBusMedia extends cBusiness
         {
             $iMediaId = !empty( $_GET[ 'media' ] ) ? $_GET[ 'media' ] : '';
 
+            // check for submitted comment
+            if( isset( $_POST[ 'submit-comment' ] ) )
+            {
+                // save comment.
+                if( !empty( $_POST[ 'comment' ] ) )
+                {
+                    $sComment = $_POST[ 'comment' ];
+                    $this->SaveComment( $sComment, $iMediaId );
+                }
+            }
+
             // increment view count
             $sIncrViews = "UPDATE media SET views = views + 1 WHERE id = :id";
 
@@ -269,14 +280,43 @@ class cBusMedia extends cBusiness
     {
         $aMediaData = array();
 
+        // get media data
         $sGetMedia = "SELECT * FROM media WHERE id = :id";
 
         $aBind = array( ':id' => $iMediaId );
 
         $aMediaData = $this->oDb->GetSingleQueryResults( $sGetMedia, $aBind );
 
+        // get media comments
+        $sGetComments = "SELECT * FROM comment WHERE media_id = :id ORDER BY timestamp DESC";
+
+        $aBind = array( ':id' => $iMediaId );
+
+        $aComments = $this->oDb->GetQueryResults( $sGetComments, $aBind );
+
+        $aMediaData[ 'comments' ] = $aComments;
+
         return $aMediaData;
     }
+
+    /**
+    * Logic for saving media comments.
+    **/
+    public function SaveComment( $sComment, $iMediaId )
+    {
+        $sSaveComment = "INSERT INTO comment
+                         ( media_id, user_id, comment, timestamp )
+                         VALUES
+                         ( :media_id, :user_id, :comment, :timestamp )";
+
+        $aBind = array( ':media_id'  => $iMediaId,
+                        ':user_id'   => $_SESSION[ 'user' ],
+                        ':comment'   => $sComment,
+                        ':timestamp' => date( 'Y-m-d H:i:s' ) );
+
+        $this->oDb->RunQuery( $sSaveComment, $aBind );
+    }
+
 }
 
 ?>

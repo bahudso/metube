@@ -134,6 +134,8 @@ h2 {
 	border: 1px solid #000;
 	box-shadow: 2px 2px grey;
 	border-radius: 5px;
+
+	list-style: none;
 }
 
 .panel h2 {

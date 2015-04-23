@@ -83,8 +83,46 @@ class cPresMedia extends cPresentation
         // get correct media player.
         $aViewPage[ '_:_PLAYER_:_' ] = $this->BuildMediaPlayer( $aViewData[ 'location' ], $aViewData[ 'type' ] );
 
-        $aViewPage[ '_:_COMMENT-FORM_:_' ] = '';
-        $aViewPage[ '_:_COMMENTS_:_' ] = '';
+        // if user is logged in and commenting is enabled for media, show the comment form.
+        if( $aViewData[ 'commenting' ] == 1 && isset( $_SESSION[ 'user' ] ) )
+        {
+            $aCommentForm = array();
+            $aCommentForm[ 'template' ] = 'media/comment-form.html';
+            $aCommentForm[ '_:_ID_:_' ] = $aViewData[ 'id' ];
+            $aViewPage[ '_:_COMMENT-FORM_:_' ] = $this->oTemplate->PopulateTemplate( $aCommentForm );
+        }
+        elseif( $aViewData[ 'commenting' ] == 0 )
+        {
+            $aViewPage[ '_:_COMMENT-FORM_:_' ] = "<p>Commenting is disabled for this media.</p>";
+        }
+        elseif( !isset( $_SESSION[ 'user' ] ) )
+        {
+            $aViewPage[ '_:_COMMENT-FORM_:_' ] = "<p>Please login to submit a comment.</p>";
+        }
+        else
+        {
+            $aViewPage[ '_:_COMMENT-FORM_:_' ] = '';
+        }
+        
+        // display comments.
+        if( !empty( $aViewData[ 'comments' ] ) && $aViewData[ 'commenting' ] == 1 )
+        {
+            // populate comments
+            $sCommentString = '';
+            foreach( $aViewData[ 'comments' ] as $aComment )
+            {
+                $sCommentString .= "<p class='panel'>" . $aComment[ 'comment' ] . "</p>";
+            }
+            $aViewPage[ '_:_COMMENTS_:_' ] = $sCommentString;
+        }
+        elseif( $aViewData[ 'commenting' ] == 1 )
+        {
+            $aViewPage[ '_:_COMMENTS_:_' ] = "<p>No comments have been posted yet</p>";
+        }
+        else
+        {
+            $aViewPage[ '_:_COMMENTS_:_' ] = '';
+        }
 
         $sViewHTML = $this->BuildPage( $aViewPage );
 
