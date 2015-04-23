@@ -131,7 +131,7 @@ class cPresUser extends cPresentation
             $sMedia .= "<li class='panel'>No Media in Playlist</li>";
         } else {
             foreach($playlist as $p) {
-                $sMedia .= "<li class='panel'><a href='view.php?id=" . $p['media_id'] . "'>" . $p['media_title'] . "</a></li>";
+                $sMedia .= "<li class='panel'><a href='view.php?media=" . $p['media_id'] . "'>" . $p['media_title'] . "</a></li>";
             }
         }
 
