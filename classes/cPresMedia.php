@@ -84,12 +84,29 @@ class cPresMedia extends cPresentation
         $aViewPage[ '_:_DESC_:_' ]  = !empty( $aViewData[ 'description' ] ) ?
                                       $aViewData[ 'description' ] : 'No description provided.';
         $aViewPage[ '_:_VIEWS_:_' ] = $aViewData[ 'views' ];
+        $aViewPage[ '_:_ID_:_' ]    = $aViewData[ 'id' ];
+
+        if( isset($aViewData[ 'favorite' ]) )
+        {
+            $aViewPage[ '_:_FAVORITE_:_' ] = "<img src='img/heart.png' width='15' height='15'/>&nbsp&nbsp<span>Added to Favorites</span>";
+        }
+        elseif( isset( $_SESSION[ 'user' ] ) )
+        {
+            $aViewPage[ '_:_FAVORITE_:_' ] = '<form method="POST" action="view.php?media=' . $aViewData[ 'id' ] . '"><input type="submit" name="favorite" value="Add to Favorites" /></form>';
+        }
+        else
+        {
+            $aViewPage[ '_:_FAVORITE_:_' ] = '';
+        }
+
         // convert datetime to readable date
         $sDate = strtotime( $aViewData[ 'upload_date' ] );
         $sDate = date( 'M d, Y', $sDate );
         $aViewPage[ '_:_DATE_:_' ]  = $sDate;
+
         // get correct media player.
         $aViewPage[ '_:_PLAYER_:_' ] = $this->BuildMediaPlayer( $aViewData[ 'location' ], $aViewData[ 'type' ] );
+
         // if user is logged in and commenting is enabled for media, show the comment form.
         if( $aViewData[ 'commenting' ] == 1 && isset( $_SESSION[ 'user' ] ) )
         {
