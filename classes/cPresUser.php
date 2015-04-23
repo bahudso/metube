@@ -65,6 +65,44 @@ class cPresUser extends cPresentation
         }
 
         $aUserProfilePage[ '_:_MEDIA_:_' ] = $sMedia;
+        $aUserProfilePage[ '_:_UPLOADS_:_' ] = '';
+
+        if( !empty( $aUserData[ 'favorites' ] ) )
+        {
+            $sFavorites = '';
+            foreach( $aUserData[ 'favorites' ] as $aFavorite )
+            {
+                $aItem = array();
+                $aItem[ 'template' ] = 'media/media-item.html';
+                $aItem[ '_:_TITLE_:_' ] = $aFavorite[ 'title' ];
+                $aItem[ '_:_DESCR_:_' ] = $aFavorite[ 'description' ];
+                $aItem[ '_:_ID_:_' ]    = $aFavorite[ 'id' ];
+
+                switch( $aFavorite[ 'type' ] )
+                {
+                    case 'avi':
+                    case 'wmv':
+                    case 'mp4':
+                    case 'mov':
+                        $aItem[ '_:_IMG_:_' ] = 'img/video.png';
+                        break;
+                    case 'wav':
+                    case 'mp3':
+                    case 'ogg':
+                        $aItem[ '_:_IMG_:_' ] = 'img/audio.png';
+                        break;
+                    case 'png':
+                    case 'jpg':
+                    case 'gif':
+                        $aItem[ '_:_IMG_:_'] = 'img/image.png';
+                        break;
+                }
+
+                $sFavorites .= $this->oTemplate->PopulateTemplate( $aItem );
+            }
+
+            $aUserProfilePage[ '_:_FAVORITES_:_' ] = $sFavorites;
+        }
 
         $sProfileHtml = $this->BuildPage($aUserProfilePage);
         
