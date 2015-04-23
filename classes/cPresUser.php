@@ -112,6 +112,28 @@ class cPresUser extends cPresentation
         
         return $html;
     }
+
+    /**
+    * Build playlists page
+    **/
+    public function GetPlaylistPage($playlist) {
+        $page = array();
+        $page['template'] = 'user/playlist.html';
+        $page['_:_TITLE_:_'] = $playlist[0]['playlist_title'];
+        
+        $sMedia = '<ul style="list-style-type:none;">';
+        // dv($playlist[0]['playlist_title']);
+        foreach($playlist as $p) {
+            $sMedia .= "<li class='panel'><a href='view.php?id=" . $p['media_id'] . "'>" . $p['media_title'] . "</a></li>";
+        }
+        $sMedia .= "</ul>";
+
+        $page[ '_:_MEDIA_:_' ] = $sMedia;
+
+        $html = $this->BuildPage($page);
+        
+        return $html;
+    }
 }
 
 ?>

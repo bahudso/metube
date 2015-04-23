@@ -385,6 +385,40 @@ class cBusUser extends cBusiness
 
         return $sMessage;
     }
+
+    /**
+    * Add Playlist
+    **/
+    public function addPlaylist($aFormData) {
+        $sInsertMessage = "INSERT INTO playlist (title, user) 
+            VALUES (:title, :user)";
+
+        $aBind = array(':title' => $aFormData['title'],
+            ':user' => $_SESSION['user']);
+
+        $this->oDb->RunQuery( $sInsertMessage, $aBind );
+
+        $pid = $this->oDb->GetLastId();
+
+        return $pid;
+    }
+
+    /**
+    * Get playlist data
+    **/
+    public function getPlaylist($pid) {
+        $sGetPlaylist = "SELECT playlist.title AS playlist_title, media_id, media.title AS media_title
+            FROM playlist JOIN playlist_media 
+            ON playlist_id = playlist.id 
+            JOIN media ON media_id = media.id 
+            WHERE playlist.id = :id";
+
+        $aBind = array( ':id' => $pid );
+
+        $playlist = $this->oDb->GetQueryResults( $sGetPlaylist, $aBind );
+
+        return $playlist;
+    }
 }
 
 ?>
