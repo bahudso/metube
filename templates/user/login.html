@@ -1,25 +1,36 @@
-<!DOCTYPE html>
-<html>
-    <head>
-    </head>
-    <body>
+<table><tbody><tr><td>
+    <form action="login.php" method="POST" class="panel">
         <h1>Login</h1>
-        <form action="login.php" method="POST">
+        <p>
             <label>Email</label>
+            <br>
             <input type="text" name="email"/>
+        </p>
+        <p>
             <label>Password</label>
+            <br>
             <input type="password" name="password"/>
-            <input type="submit" name="login" value="Log In"/>
-        </form>
+        </p>
+        <input type="submit" name="login" value="Log In"/>
+    </form>
+</td><td>
+    <form action="login.php" method="POST" class="panel">
         <h1>Register</h1>
-        <form action="login.php" method="POST">
+        <p>
             <label>Email</label>
+            <br>
             <input type="text" name="email"/>
+        </p>
+        <p>
             <label>Password</label>
+            <br>
             <input type="password" name="password"/>
+        </p>
+        <p>
             <label>Confirm Password</label>
+            <br>
             <input type="password" name="password-conf"/>
-            <input type="submit" name="register" value="Register"/>
-        </form>
-    </body>
-</html>
+        </p>
+        <input type="submit" name="register" value="Register"/>
+    </form>
+</td></tr></tbody></table>
