@@ -6,11 +6,11 @@ require_once 'includes/MediaBootstrap.php';
 
 try
 {
-    $aUploadData = $oBusiness->HandleBrowse($_GET);
+    $aBrowseData = $oBusiness->HandleBrowse($_GET);
 
-    $sUploadHTML = $oPresentation->GetBrowsePage( $aUploadData );
+    $sBrowseHTML = $oPresentation->GetBrowsePage( $aBrowseData );
 
-    echo $sUploadHTML;
+    echo $sBrowseHTML;
 }
 catch( Exception $e )
 {

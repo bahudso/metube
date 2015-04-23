@@ -84,6 +84,10 @@ ul {
 	padding: 0;
 }
 
+ul {
+	list-style: none;
+}
+
 ul#messages {
 	list-style: none;
 	margin: 0;

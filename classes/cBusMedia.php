@@ -210,8 +210,19 @@ class cBusMedia extends cBusiness
     * Handle browse for media files
     **/
     public function HandleBrowse($_GET) {
+        // if search is seach perform search
         if (isset($_GET['search'])) {
-            // do search
+            $sGetSearch = "SELECT * FROM media WHERE 
+                (title LIKE '%" . $_GET['search'] . "%' OR
+                description LIKE '%" . $_GET['search'] . "%') AND
+                (access = 'public' OR
+                uploader = :user)";
+
+            $aBind = array(':user' => $_SESSION['user']);
+
+            $aSearchData = $this->oDb->GetQueryResults( $sGetSearch, $aBind );
+
+            return $aSearchData;
         }
     }
 }

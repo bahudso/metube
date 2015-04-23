@@ -45,6 +45,17 @@ class cPresMedia extends cPresentation
         $aBrowsePage = array();
         $aBrowsePage['template'] = 'browse.html';
 
+        $sResults = '';
+        if (count($aBrowseData) == 0) {
+            $sResults = "<li class='panel'>No results</li>";
+        } else {
+            foreach($aBrowseData as $result) {
+                $sResults .= "<li class='panel'><a href='view.php?id=" . $result['id'] . "'>" . $result['title'] . "</a></li>";
+            }
+        }
+
+        $aBrowsePage['_:_RESULTS_:_'] = $sResults;
+
         $sBrowseHTML = $this->BuildPage( $aBrowsePage );
 
         return $sBrowseHTML;
