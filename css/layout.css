@@ -31,7 +31,11 @@ a#addPlaylist {
 	width: 1em;
 	height: 1em;
 	text-decoration: none;
+}
+
+a#addPlaylist button {
 	float: right;
+	margin-right: 50px;
 }
 
 form {
@@ -134,8 +138,6 @@ h2 {
 	border: 1px solid #000;
 	box-shadow: 2px 2px grey;
 	border-radius: 5px;
-
-	list-style: none;
 }
 
 .panel h2 {

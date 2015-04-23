@@ -123,13 +123,18 @@ class cPresUser extends cPresentation
     public function GetPlaylistPage($playlist) {
         $page = array();
         $page['template'] = 'user/playlist.html';
+
         $page['_:_TITLE_:_'] = $playlist[0]['playlist_title'];
         
         $sMedia = '<ul>';
-        // dv($playlist[0]['playlist_title']);
-        foreach($playlist as $p) {
-            $sMedia .= "<li class='panel'><a href='view.php?id=" . $p['media_id'] . "'>" . $p['media_title'] . "</a></li>";
+        if (count($playlist) == 1 && !isset($playlist[0]['media_id'])) {
+            $sMedia .= "<li class='panel'>No Media in Playlist</li>";
+        } else {
+            foreach($playlist as $p) {
+                $sMedia .= "<li class='panel'><a href='view.php?id=" . $p['media_id'] . "'>" . $p['media_title'] . "</a></li>";
+            }
         }
+
         $sMedia .= "</ul>";
 
         $page[ '_:_MEDIA_:_' ] = $sMedia;

@@ -235,13 +235,22 @@ class cBusMedia extends cBusiness
             $aSearchData["results"] = $this->oDb->GetQueryResults( $sGetSearch, $aBind );
 
         } else if (isset($_GET['search'])) {
-            $sGetSearch = "SELECT * FROM media WHERE 
-                (title LIKE '%" . $_GET['search'] . "%' OR
-                description LIKE '%" . $_GET['search'] . "%') AND
-                (access = 'public' OR
-                uploader = :user)";
+            if (isset($_SESSION['user'])) {
+                $sGetSearch = "SELECT * FROM media WHERE 
+                    (title LIKE '%" . $_GET['search'] . "%' OR
+                    description LIKE '%" . $_GET['search'] . "%') AND
+                    (access = 'public' OR
+                    uploader = :user)";
 
-            $aBind = array(':user' => $_SESSION['user']);
+                $aBind = array(':user' => $_SESSION['user']);
+            } else {
+                $sGetSearch = "SELECT * FROM media WHERE 
+                    (title LIKE '%" . $_GET['search'] . "%' OR
+                    description LIKE '%" . $_GET['search'] . "%') AND
+                    (access = 'public')";
+
+                $aBind = array();
+            }
 
             $aSearchData["results"] = $this->oDb->GetQueryResults( $sGetSearch, $aBind );
         }
