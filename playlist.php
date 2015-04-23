@@ -23,7 +23,7 @@ try
 	} else if (isset($_GET['pid'])) {
 		// load single playlist template
 		$aPlaylist = $oBusiness->getPlaylist($_GET['pid']);
-		
+
 		$sPlaylistHTML = $oPresentation->GetPlaylistPage( $aPlaylist );
 
 	} else {

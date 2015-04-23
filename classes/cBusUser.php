@@ -408,9 +408,9 @@ class cBusUser extends cBusiness
     **/
     public function getPlaylist($pid) {
         $sGetPlaylist = "SELECT playlist.title AS playlist_title, media_id, media.title AS media_title
-            FROM playlist JOIN playlist_media 
+            FROM playlist LEFT JOIN playlist_media 
             ON playlist_id = playlist.id 
-            JOIN media ON media_id = media.id 
+            LEFT JOIN media ON media_id = media.id 
             WHERE playlist.id = :id";
 
         $aBind = array( ':id' => $pid );
