@@ -284,11 +284,33 @@ class cBusMedia extends cBusiness
                     $this->SaveComment( $sComment, $iMediaId );
                 }
             }
+
+            if( isset( $_POST[ 'favorite' ] ) )
+            {
+                $sAddFavorite = "INSERT INTO favorite ( user_id, media_id )
+                                 VALUES ( :user, :media )";
+
+                $aBind = array( ':user' => $_SESSION[ 'user' ], ':media' => $iMediaId );
+
+                $this->oDb->RunQuery( $sAddFavorite, $aBind );
+            }
+
             // increment view count
             $sIncrViews = "UPDATE media SET views = views + 1 WHERE id = :id";
             $aBind = array( ':id' => $iMediaId );
             $this->oDb->RunQuery( $sIncrViews, $aBind );
+
+            // check if video is in favorites
+            $sIsFavorite = "SELECT media_id FROM favorite WHERE media_id = :media AND user_id = :user";
+            $aBind = array( ':media' => $iMediaId, ':user' => $_SESSION[ 'user' ] );
+            $aFavorite = $this->oDb->GetQueryResults( $sIsFavorite, $aBind );
+
             $aViewData = $this->GetMedia( $iMediaId );
+
+            if( !empty( $aFavorite ) )
+            {
+                $aViewData[ 'favorite' ] = 1;
+            }
         }
         return $aViewData;
     }
@@ -298,15 +320,19 @@ class cBusMedia extends cBusiness
     public function GetMedia( $iMediaId )
     {
         $aMediaData = array();
+
         // get media data
         $sGetMedia = "SELECT * FROM media WHERE id = :id";
         $aBind = array( ':id' => $iMediaId );
         $aMediaData = $this->oDb->GetSingleQueryResults( $sGetMedia, $aBind );
+
         // get media comments
         $sGetComments = "SELECT * FROM comment WHERE media_id = :id ORDER BY timestamp DESC";
         $aBind = array( ':id' => $iMediaId );
         $aComments = $this->oDb->GetQueryResults( $sGetComments, $aBind );
+
         $aMediaData[ 'comments' ] = $aComments;
+
         return $aMediaData;
     }
     /**
