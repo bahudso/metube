@@ -160,6 +160,53 @@ class cBusMedia extends cBusiness
     }
 
     /**
+    * Logic for downloading files.
+    **/ 
+    public function HandleDownload()
+    {
+        $sFile = isset( $_GET[ 'file' ] ) ? $_GET[ 'file' ] : '';
+
+        $aPath = pathinfo( $sFile );
+        $sName = $aPath[ 'basename' ];
+        $sExt  = $aPath[ 'extension' ];
+        $sPath = './uploads/' . $sName;
+
+        $aContentTypes = array(
+                                'avi' => 'video/x-msvideo',
+                                'wmv' => 'video/x-ms-wmv',
+                                'mp4' => 'video/mp4',
+                                'mov' => 'video/quicktime',
+                                'wav' => 'audio/x-wav',
+                                'mp3' => 'audio/mpeg',
+                                'oga' => 'audio/ogg',
+                                'png' => 'image/png',
+                                'jpg' => 'image/jpeg',
+                                'gif' => 'image/gif'  
+                            );
+        
+        $sDefaultType = 'application/octet-stream';
+
+        $sContentType = isset( $aContentTypes[ $sExt ] ) ? $aContentTypes[ $sExt ] : $sDefaultType;
+
+        if( is_file( $sPath ) )
+        {
+            header( 'Pragma: public' );
+            header( 'Cache-Control: must-revalidate, post-check=0, pre-check=0' );
+            header( 'Content-Disposition: attachment; filename=' . $sName );
+            header( 'Content-Type: ' . $sContentType );
+            
+            ob_clean();
+            flush();
+            
+            readfile( $sPath );
+        }
+        else
+        {
+            header( 'HTTP/1.0 404 Not Found' );
+        }
+    }
+
+    /**
     * Handle browse for media files
     **/
     public function HandleBrowse($_GET) {
