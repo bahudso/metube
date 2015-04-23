@@ -216,6 +216,8 @@ class cBusMedia extends cBusiness
         {
             header( 'HTTP/1.0 404 Not Found' );
         }
+
+        header('Location: view.php?media=' . $_GET['media_id']);
     }
 
     /**

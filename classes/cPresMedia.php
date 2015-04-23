@@ -83,7 +83,7 @@ class cPresMedia extends cPresentation
         $aViewPage[ '_:_DESC_:_' ]  = !empty( $aViewData[ 'description' ] ) ?
                                       $aViewData[ 'description' ] : 'No description provided.';
         $aViewPage[ '_:_VIEWS_:_' ] = $aViewData[ 'views' ];
-        $aViewPage[ '_:_ID_:_' ]    = $aViewData[ 'id' ];
+        $aViewPage[ '_:_LOCATION_:_' ]    = $aViewData[ 'location' ];
 
         if( isset($aViewData[ 'favorite' ]) )
         {
