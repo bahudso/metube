@@ -26,15 +26,16 @@ class cBusMedia extends cBusiness
             }
             else
             {
-                $aFileUpload = $this->UploadFile( $_FILES[ 'file' ] );
+                // $aFileUpload = $this->UploadFile( $_FILES[ 'file' ] );
 
                 if( !isset( $aFileUpload[ 'error' ] ) )
                 {
                     $aFileUpload[ 'uploader' ] = $_SESSION[ 'user' ];
                     $aFileUpload[ 'title' ]    = $_POST[ 'file-title' ];
-                    $aFileUpload[ 'desc' ]     = !empty( $_POST[ 'file-desc' ] ) ? $_POST[ 'file-desc' ] : '';
+                    $aFileUpload[ 'desc' ]     = !empty( $_POST[ 'file-description' ] ) ? $_POST[ 'file-description' ] : '';
                     $aFileUpload[ 'access' ]   = $_POST[ 'file-access' ];
                     $aFileUpload[ 'date' ]     = date( 'Y-m-d H:i:s' );
+                    $aFileUpload[ 'tags' ]     = $_POST['file-tags'];
 
                     $this->SaveFile( $aFileUpload );
 
@@ -157,6 +158,17 @@ class cBusMedia extends cBusiness
                         ':upload_date' => $aFile[ 'date' ] );
 
         $this->oDb->RunQuery( $sSaveFile, $aBind );
+
+        $mediaId = $this->oDb->GetLastId();
+
+        foreach(explode(",", $aFile['tags']) as $tag) {
+            $sInsertTag = "INSERT INTO tag (tag, media_id) VALUES (:tag, :media_id)";
+
+            $aBind = array(':tag' => trim($tag),
+                ':media_id' => $mediaId);
+
+            $this->oDb->RunQuery($sInsertTag, $aBind);
+        }
     }
 
     /**
