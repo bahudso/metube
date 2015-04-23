@@ -79,6 +79,14 @@ class cBusUser extends cBusiness
             $aUserData[ 'username' ] = $aUserInfo[ 'username' ];
             $aUserData[ 'description' ] = $aUserInfo[ 'description' ];
 
+            // get user's media
+            $sGetUserMedia = "SELECT * FROM media
+                             WHERE uploader = :user";
+
+            $aBind = array( ':user' => $_SESSION['user'] );
+
+            $aUserData['media'] = $this->oDb->GetQueryResults( $sGetUserMedia, $aBind );
+
             $aUserData[ 'message' ] = $sMessage;
         }
 

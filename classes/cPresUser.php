@@ -58,6 +58,14 @@ class cPresUser extends cPresentation
             $aUserProfilePage['_:_SUBSCRIBE_:_'] = '<input type="submit" name="subscribe" value="Subscribe"/>';            
         }
 
+        // media
+        $sMedia = '';
+        foreach($aUserData['media'] as $media) {
+            $sMedia .= '<li class="panel"><a href="view.php?media='.$media['id'].'">'.$media['title'].'</a></li>';
+        }
+
+        $aUserProfilePage[ '_:_MEDIA_:_' ] = $sMedia;
+
         $sProfileHtml = $this->BuildPage($aUserProfilePage);
         
         return $sProfileHtml;
