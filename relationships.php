@@ -10,6 +10,8 @@ try
 
 	if (isset($_POST['addRelationship'])) {
 		$sMessage = $oBusiness->AddRelationship($_POST);
+	} if (isset($_POST['accept']) || isset($_POST['decline'])) {
+		$sMessage = $oBusiness->AcceptFriendRequest($_POST);
 	}
     $aData = $oBusiness->GetRelationships();
 

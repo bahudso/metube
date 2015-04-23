@@ -328,7 +328,7 @@ class cBusUser extends cBusiness
     * Get's relationships for a user
     **/
     public function GetRelationships() {
-        $sGetRelations = "SELECT type, username 
+        $sGetRelations = "SELECT user_a, type, username 
             FROM relationship JOIN user ON user.id = relationship.user_b 
             WHERE user_a = :user";
         
@@ -337,6 +337,31 @@ class cBusUser extends cBusiness
         $relations = $this->oDb->GetQueryResults( $sGetRelations, $aBind );
 
         return $relations;
+    }
+
+    /**
+    * Accept friend request
+    **/
+    public function AcceptFriendRequest($aFormData) {
+        if (isset($aFormData['accept'])) {
+            $sUpdateRelation = "UPDATE relationship
+                SET type = 1
+                WHERE user_b = :user AND type = 0";
+
+            $aBind = array(':user' => $_SESSION['user']);
+
+            $this->oDb->RunQuery( $sUpdateRelation, $aBind );
+        } else {
+            $sUpdateRelation = "DELETE relationship
+                WHERE user_b = :user AND type = 0";
+
+            $aBind = array(':user' => $_SESSION['user']);
+
+            $this->oDb->RunQuery( $sUpdateRelation, $aBind );
+        }
+
+        $sMessage = 'Success.';
+        return $sMessage;
     }
 
     /**

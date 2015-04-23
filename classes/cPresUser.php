@@ -100,7 +100,11 @@ class cPresUser extends cPresentation
         foreach($relations as $relation) {
             // pending requests
             if ($relation['type'] == 0) {
-                $page['_:_PENDING_:_'] .= "<li>".$relation['username']."</li>";
+                $page['_:_PENDING_:_'] .= "<li>".$relation['username']."<form name='handleRelationship' action='relationships.php' method='POST'>
+                    <input name='accept' type='submit' value='Accept'/>
+                    <input name='decline' type='submit' value='Decline'/>
+                    <input name='user_a' type='hidden' value='".$relation['user_a']."'/>
+                </form></li>";
             }
             // friends
             if ($relation['type'] == 1) {
@@ -152,7 +156,7 @@ class cPresUser extends cPresentation
         $page['template'] = 'user/playlists.html';
 
         $sPlaylists = '';
-        // dv($playlist[0]['playlist_title']);
+
         foreach($playlists as $p) {
             $sPlaylists .= "<li class='panel'><a href='playlist.php?pid=" . $p['id'] . "'>" . $p['title'] . "</a></li>";
         }

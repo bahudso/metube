@@ -50,6 +50,14 @@ input[name=search] {
 	margin-right: 45px;
 }
 
+input[name=accept], input[name=decline] {
+	font-size: .1em;
+}
+
+form[name=handleRelationship] {
+	float: right;
+}
+
 input#browse {
 	float: none;
 	width: 100%;
