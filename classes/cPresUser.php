@@ -114,14 +114,14 @@ class cPresUser extends cPresentation
     }
 
     /**
-    * Build playlists page
+    * Build playlist page for single playlist
     **/
     public function GetPlaylistPage($playlist) {
         $page = array();
         $page['template'] = 'user/playlist.html';
         $page['_:_TITLE_:_'] = $playlist[0]['playlist_title'];
         
-        $sMedia = '<ul style="list-style-type:none;">';
+        $sMedia = '<ul>';
         // dv($playlist[0]['playlist_title']);
         foreach($playlist as $p) {
             $sMedia .= "<li class='panel'><a href='view.php?id=" . $p['media_id'] . "'>" . $p['media_title'] . "</a></li>";
@@ -132,6 +132,26 @@ class cPresUser extends cPresentation
 
         $html = $this->BuildPage($page);
         
+        return $html;
+    }
+
+    /**
+    * Builds playlists page for all user playlists
+    **/
+    public function GetPlaylistsPage($playlists) {
+        $page = array();
+        $page['template'] = 'user/playlists.html';
+
+        $sPlaylists = '';
+        // dv($playlist[0]['playlist_title']);
+        foreach($playlists as $p) {
+            $sPlaylists .= "<li class='panel'><a href='playlist.php?pid=" . $p['id'] . "'>" . $p['title'] . "</a></li>";
+        }
+
+        $page['_:_PLAYLISTS_:_'] = $sPlaylists;
+
+        $html = $this->BuildPage($page);
+
         return $html;
     }
 }

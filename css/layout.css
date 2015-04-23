@@ -27,23 +27,6 @@ nav a {
 	color: #000;
 }
 
-#sidebar {
-	width: 20%;
-	height: 100%;
-	background-color: #fff;
-	float: left;
-	box-shadow: 1px 0 2px grey;
-	padding: 10px;
-}
-
-#sidebar ul {
-	list-style: none;
-}
-
-#sidebar ul li {
-	padding: 10px;
-}
-
 a#addPlaylist {
 	width: 1em;
 	height: 1em;
@@ -97,11 +80,6 @@ ul#messages {
 div#content {
 	position: relative;
 	width: 100%;
-}
-
-div#user-content {
-	position: relative;
-	margin-left: 20%;
 }
 
 h1 {

@@ -419,6 +419,19 @@ class cBusUser extends cBusiness
 
         return $playlist;
     }
+
+    /**
+    * Get all of a user's playlists
+    **/
+    public function getPlaylists() {
+        $sGetPlaylists = "SELECT * FROM playlist WHERE user = :user";
+
+        $aBind = array( ':user' => $_SESSION['user']);
+
+        $playlists = $this->oDb->GetQueryResults($sGetPlaylists, $aBind);
+
+        return $playlists;
+    }
 }
 
 ?>
