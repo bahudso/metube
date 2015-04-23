@@ -79,6 +79,9 @@ class cBusUser extends cBusiness
             $aUserData[ 'username' ] = $aUserInfo[ 'username' ];
             $aUserData[ 'description' ] = $aUserInfo[ 'description' ];
 
+            //$aUserData[ 'uploads' ]   = $this->GetUploads();
+            $aUserData[ 'favorites' ] = $this->GetFavorites();
+
             $aUserData[ 'message' ] = $sMessage;
         }
 
@@ -380,6 +383,8 @@ class cBusUser extends cBusiness
         $aUserData[ 'username' ]    = $aUserInfo[ 'username' ];
         $aUserData[ 'description' ] = $aUserInfo[ 'description' ];
 
+        $aUserData[ 'favorites' ] = $this->GetFavorites();
+
         return $aUserData;
     }
 
@@ -458,6 +463,21 @@ class cBusUser extends cBusiness
         $this->oDb->RunQuery( $sInsert, $aBind );
 
         return 0;
+    }
+
+    public function GetFavorites()
+    {
+        $aFavorites = array();
+
+        $sGetFavorites = "SELECT media.id, media.title, media.type, media.description FROM media 
+                          JOIN favorite ON media.id = media_id
+                          WHERE user_id=:user";
+
+        $aBind = array( ':user' => $_SESSION[ 'user' ] );
+
+        $aFavorites = $this->oDb->GetQueryResults( $sGetFavorites, $aBind );
+
+        return $aFavorites;
     }
 }
 
