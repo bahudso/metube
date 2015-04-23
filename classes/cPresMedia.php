@@ -89,9 +89,13 @@ class cPresMedia extends cPresentation
         {
             $aViewPage[ '_:_FAVORITE_:_' ] = "<img src='img/heart.png' width='15' height='15'/>&nbsp&nbsp<span>Added to Favorites</span>";
         }
-        else
+        elseif( isset( $_SESSION[ 'user' ] ) )
         {
             $aViewPage[ '_:_FAVORITE_:_' ] = '<form method="POST" action="view.php?media=' . $aViewData[ 'id' ] . '"><input type="submit" name="favorite" value="Add to Favorites" /></form>';
+        }
+        else
+        {
+            $aViewPage[ '_:_FAVORITE_:_' ] = '';
         }
 
         // convert datetime to readable date
