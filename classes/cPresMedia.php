@@ -50,8 +50,7 @@ class cPresMedia extends cPresentation
             $sResults = "<li class='panel'>No results</li>";
         } else {
             foreach($aBrowseData['results'] as $result) {
-                // dv($result);
-                $sResults .= "<li class='panel'><a href='view.php?media=" . $result['id'] . "'>" . $result['title'] . "</a></li>";
+                $sResults .= "<li class='panel'><a href='view.php?media=" . $result['media_id'] . "'>" . $result['title'] . "</a></li>";
             }
 
 

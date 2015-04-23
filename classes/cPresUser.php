@@ -163,10 +163,14 @@ class cPresUser extends cPresentation
         $page = array();
         $page['template'] = 'user/playlists.html';
 
-        $sPlaylists = '';
+        if (count($playlists) == 0) {
+            $sPlaylists = '<li class="panel">You currently have no playlists... <a href="playlist.php?addNew=true">Add One</a></li>';
+        } else {
+            $sPlaylists = '';
 
-        foreach($playlists as $p) {
-            $sPlaylists .= "<li class='panel'><a href='playlist.php?pid=" . $p['id'] . "'>" . $p['title'] . "</a></li>";
+            foreach($playlists as $p) {
+                $sPlaylists .= "<li class='panel'><a href='playlist.php?pid=" . $p['id'] . "'>" . $p['title'] . "</a></li>";
+            }
         }
 
         $page['_:_PLAYLISTS_:_'] = $sPlaylists;
