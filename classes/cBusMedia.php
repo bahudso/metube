@@ -222,14 +222,17 @@ class cBusMedia extends cBusiness
     * Handle browse for media files
     **/
     public function HandleBrowse($_GET) {
+        $aSearchData["results"] = array();
         // if search is seach perform search
         if (isset($_GET['tags'])) {
             $sGetSearch = "SELECT * FROM media 
-                JOIN tag ON media_id = id
+                JOIN tag ON media_id = media.id
                 WHERE 
                 tag = :tag";
 
             $aBind = array(':tag' => $_GET['search']);
+
+            $aSearchData["results"] = $this->oDb->GetQueryResults( $sGetSearch, $aBind );
 
         } else if (isset($_GET['search'])) {
             $sGetSearch = "SELECT * FROM media WHERE 
@@ -239,9 +242,9 @@ class cBusMedia extends cBusiness
                 uploader = :user)";
 
             $aBind = array(':user' => $_SESSION['user']);
-        }
 
-        $aSearchData["results"] = $this->oDb->GetQueryResults( $sGetSearch, $aBind );
+            $aSearchData["results"] = $this->oDb->GetQueryResults( $sGetSearch, $aBind );
+        }
 
         // get tags to show
         $sGetTags = "SELECT DISTINCT(tag) FROM tag LIMIT 10";
@@ -249,8 +252,6 @@ class cBusMedia extends cBusiness
         $aTagData = $this->oDb->GetQueryResults($sGetTags, array());
 
         $aSearchData["tags"] = $aTagData;
-
-        dv($aSearchData);
 
         return $aSearchData;
     }
@@ -261,11 +262,9 @@ class cBusMedia extends cBusiness
     public function HandleView()
     {
         $aViewData = array();
-
         if( isset( $_GET[ 'media' ] ) )
         {
             $iMediaId = !empty( $_GET[ 'media' ] ) ? $_GET[ 'media' ] : '';
-
             // check for submitted comment
             if( isset( $_POST[ 'submit-comment' ] ) )
             {
@@ -276,46 +275,31 @@ class cBusMedia extends cBusiness
                     $this->SaveComment( $sComment, $iMediaId );
                 }
             }
-
             // increment view count
             $sIncrViews = "UPDATE media SET views = views + 1 WHERE id = :id";
-
             $aBind = array( ':id' => $iMediaId );
-
             $this->oDb->RunQuery( $sIncrViews, $aBind );
-
             $aViewData = $this->GetMedia( $iMediaId );
         }
-
         return $aViewData;
     }
-
     /**
     * Get media information for media id.
     **/
     public function GetMedia( $iMediaId )
     {
         $aMediaData = array();
-
         // get media data
         $sGetMedia = "SELECT * FROM media WHERE id = :id";
-
         $aBind = array( ':id' => $iMediaId );
-
         $aMediaData = $this->oDb->GetSingleQueryResults( $sGetMedia, $aBind );
-
         // get media comments
         $sGetComments = "SELECT * FROM comment WHERE media_id = :id ORDER BY timestamp DESC";
-
         $aBind = array( ':id' => $iMediaId );
-
         $aComments = $this->oDb->GetQueryResults( $sGetComments, $aBind );
-
         $aMediaData[ 'comments' ] = $aComments;
-
         return $aMediaData;
     }
-
     /**
     * Logic for saving media comments.
     **/
@@ -325,15 +309,12 @@ class cBusMedia extends cBusiness
                          ( media_id, user_id, comment, timestamp )
                          VALUES
                          ( :media_id, :user_id, :comment, :timestamp )";
-
         $aBind = array( ':media_id'  => $iMediaId,
                         ':user_id'   => $_SESSION[ 'user' ],
                         ':comment'   => $sComment,
                         ':timestamp' => date( 'Y-m-d H:i:s' ) );
-
         $this->oDb->RunQuery( $sSaveComment, $aBind );
     }
-
 }
 
 ?>
