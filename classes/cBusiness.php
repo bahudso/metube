@@ -15,9 +15,11 @@ class cBusiness
     {
         $aIndexData = array();
 
-        $sGetUsers = "SELECT * FROM user";
+        $sGetMedia = "SELECT * FROM media ORDER BY upload_date DESC LIMIT 6";
 
-        $aUsers = $this->oDb->GetQueryResults( $sGetUsers );
+        $aMedia = $this->oDb->GetQueryResults( $sGetMedia );
+
+        $aIndexData['media'] = $aMedia;
 
         return $aIndexData;
     }

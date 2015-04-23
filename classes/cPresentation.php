@@ -17,6 +17,17 @@ class cPresentation
 
         $aIndexPage[ 'template' ] = 'index.html';
 
+        $sMedia = '';
+        foreach($aIndexData['media'] as $media) {
+            $aMedia = array();
+            $aMedia[ 'template' ] = 'media/item.html';
+            $aMedia[ '_:_TITLE_:_' ] = $media[ 'title' ];
+            $aMedia[ '_:_DESCR_:_' ]    = $media[ 'description' ];
+            $sMedia .= $this->oTemplate->PopulateTemplate( $aMedia );
+        }
+
+        $aIndexPage[ '_:_MEDIA_:_' ] = $sMedia;
+
         $sIndexHTML = $this->BuildPage( $aIndexPage );
 
         return $sIndexHTML;
