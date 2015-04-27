@@ -106,6 +106,8 @@ class cPresUser extends cPresentation
             }
 
             $aUserProfilePage[ '_:_FAVORITES_:_' ] = $sFavorites;
+        } else {
+            $aUserProfilePage[ '_:_FAVORITES_:_' ] = '<li>No favorites to show.</li>';
         }
 
         $sProfileHtml = $this->BuildPage($aUserProfilePage);
